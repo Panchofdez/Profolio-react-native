@@ -47,7 +47,6 @@ export const signin =(type, formData)=>{
 export const signout =()=>{
 	return async dispatch=>{
 		try{
-			console.log('Hello');
 			await AsyncStorage.removeItem('token');
   			dispatch(setCurrentUser({}));
   			navigate('loginFlow');

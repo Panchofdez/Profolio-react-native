@@ -4,25 +4,29 @@ import {Text} from 'react-native-elements';
 import Spacer from './Spacer';
 import {Entypo, FontAwesome5} from '@expo/vector-icons';
 
-const BioSection = ({about,location,type,birthday})=>{
+const BioSection = ({portfolio})=>{
+	const {location, type,birthday, about} = portfolio;
 	return(
 		<Spacer>
 			<View style={styles.about}>
-				<Text style={styles.text} h4>About</Text>
-				<Text style={styles.text}>
-					<Entypo 
-						name="location-pin" 
-						size={25} 
-						color="#00ad8e"
-					/>  {location}
-				</Text>
-				<Text style={styles.text}>
-					<FontAwesome5
-						name="briefcase"
-						size={20}
-						color="#00ad8e"
-					/>   {type}
-				</Text>
+				{location && (
+					<Text style={styles.text}>
+						<Entypo 
+							name="location-pin" 
+							size={25} 
+							color="#00ad8e"
+						/>  {location}
+					</Text>
+				)}
+				{type && (
+					<Text style={styles.text}>
+						<FontAwesome5
+							name="briefcase"
+							size={20}
+							color="#00ad8e"
+						/>   {type}
+					</Text>
+				)}			
 				{birthday ? (
 					<Text style={styles.text}>
 						<FontAwesome5 
@@ -32,7 +36,7 @@ const BioSection = ({about,location,type,birthday})=>{
 							solid
 						/>   {birthday}
 				</Text>):null}
-				<Text style={styles.text} >{about}</Text>
+				{about ? <Text style={styles.text} >{about}</Text>: null}
 			</View>
 		</Spacer>
 	)

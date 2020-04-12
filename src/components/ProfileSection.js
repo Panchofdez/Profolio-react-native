@@ -1,29 +1,34 @@
 import React from 'react';
-import {StyleSheet, Dimensions, View} from 'react-native';
+import {StyleSheet, Dimensions, View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Image, Text, Button} from 'react-native-elements';
 import Spacer from './Spacer';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const ProfileSection = ({profileImage, name, recommendations})=>{
+const ProfileSection = ({portfolio, navigation, btnTitle, id})=>{
+	const {profileImage, name, recommendations} = portfolio;
 	return(
 		<Spacer>
 			<View style={styles.profile}>							
 				<Image
 					source={{ uri: profileImage}}
-						style={styles.profileImage}
-						containerStyle={styles.imageContainer}
+					style={styles.profileImage}
+					containerStyle={styles.imageContainer}
+					PlaceholderContent={<ActivityIndicator />}
 				/>
 
 				<View style={styles.userInfo}>
 					<Text style={styles.name}>{name}</Text>
-					<Text style={styles.text}>{recommendations.length} Recommendations</Text>
+					<TouchableOpacity onPress={()=>navigation.navigate('Recommendations',{itemId:id})}>
+						<Text style={styles.text}>{recommendations.length} Recommendations</Text>
+					</TouchableOpacity>
 					<Button 
 						type="outline" 
-						title="Recommend" 
+						title={btnTitle} 
 						buttonStyle={styles.button} 
 						titleStyle={{color:'#00ad8e'}}
+
 					/>
 					
 				</View>
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
 	},
 	text:{
 		marginBottom:10,
-		color:'white',
+		color:'#00ad8e',
 		fontWeight:'bold'
 	},
 	button:{
@@ -69,7 +74,8 @@ const styles = StyleSheet.create({
   		backgroundColor:'transparent',
   		alignSelf:'stretch',
   		marginVertical:10,
-  		width:0.53 *width
+  		width:0.53 *width,
+  		borderRadius:25
   	}
 })
 

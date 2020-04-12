@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, ActivityIndicator} from 'react-native';
 import {Image} from 'react-native-elements';
 
 
@@ -11,6 +11,7 @@ const ImageHeader =({image})=>{
 		<Image
 			source={{ uri: image}}
 			style={styles.headerImage}
+			PlaceholderContent={<ActivityIndicator />}
 		/>
 	)
 }

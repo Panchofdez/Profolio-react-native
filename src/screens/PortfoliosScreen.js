@@ -44,7 +44,7 @@ const PortfoliosScreen = ({navigation})=>{
 				columnWrapperStyle={styles.column}
 				renderItem={({item})=>{
 					return(
-						<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {portfolio: item, itemId:item._id})}>
+						<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:item._id})}>
 							<Card
 								containerStyle={styles.card}
 								imageStyle={styles.image}

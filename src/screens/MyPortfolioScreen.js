@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator} from 'react-native';
-import {Text, Button, Image } from 'react-native-elements';
+import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {Text, Button, Image, Header} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import CommentsSection from '../components/CommentsSection';
 import ProfileSection from '../components/ProfileSection';
@@ -9,8 +9,12 @@ import ImageHeader from '../components/ImageHeader';
 import BioSection from '../components/BioSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
+import CreateForm from '../components/CreateForm';
+import Loading from '../components/Loading';
 import {signout} from '../store/actions/currentUser';
 import {fetchMyPortfolio} from '../store/actions/myPortfolio';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -18,37 +22,70 @@ const height = Dimensions.get('window').height;
 const MyPortfolioScreen = ({navigation})=>{
 	const dispatch=useDispatch();
 	const portfolio = useSelector((state)=>state.currentUser.portfolio)
+	const [loading, setLoading] = useState(true)
 	useEffect(()=>{
-		console.log('hello')
-		dispatch(fetchMyPortfolio());
-	},[portfolio])
-	console.log(portfolio);
-	if(portfolio){
+		fetch();
+	},[]);
+	const fetch=async()=>{
+		try{
+			await dispatch(fetchMyPortfolio());
+			setLoading(false);
+		}catch(err){
+			console.log(err);
+			return;
+		}
+	}
+	if(loading){
+		return (
+			<Loading/>
+		)
+	}
+	else if(portfolio){
 		return(
 			<SafeAreaView style={styles.container}>
-				<Spacer>
-					<Button title="Sign Out" onPress={()=>dispatch(signout())}/>
-				</Spacer>
 				<FlatList
 					ListHeaderComponent={
 						<View>
-							<ImageHeader image={portfolio.headerImage}/>
+							<View style={styles.header}>
+								<TouchableOpacity onPress={()=>dispatch(signout())}>
+									<Text style={styles.signout}>Sign Out</Text>
+								</TouchableOpacity>
+								<TouchableOpacity onPress={()=>navigation.navigate('ProfileForm', {portfolio:portfolio})}>
+									<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e" style={{marginHorizontal:0.05*width}} />
+								</TouchableOpacity>
+							</View>
+							{portfolio.headerImage && (
+								<ImageHeader image={portfolio.headerImage}/>
+							)}
+							
 							<ProfileSection 
-								profileImage={portfolio.profileImage}
-								name={portfolio.name}
-								recommendations={portfolio.recommendations}
-							/>
-							<MyDivider/>
-							<BioSection 
-								about={portfolio.about}
-								location={portfolio.location}
-								type={portfolio.type}
-								birthday={portfolio.birthday}
+								portfolio={portfolio}
+								btnTitle="Share"
+								navigation={navigation}
+								id={portfolio._id}
 							/>
 							<MyDivider/>
 							<Spacer>
-								<Text style={styles.text} h4>Work</Text>
+								<View style={styles.titleContainer}>							
+									<Text style={styles.text} h4>About</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('AboutForm', {portfolio:portfolio})}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>
+									</TouchableOpacity>			
+								</View>
 							</Spacer>
+							<BioSection 
+								portfolio={portfolio}
+							/>
+							<MyDivider/>
+							<Spacer>
+								<View style={styles.titleContainer}>									
+									<Text style={styles.text} h4>Work</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('WorkForm', {portfolio:portfolio})}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>
+									</TouchableOpacity>
+								</View>
+							</Spacer>
+
 						</View>
 					}
 					data={portfolio.collections}
@@ -56,9 +93,10 @@ const MyPortfolioScreen = ({navigation})=>{
 					renderItem={({item})=>{
 						return(
 						
-							<View style={{alignItems:'center'}}>
+							<View>
 								<FlatList 
 									horizontal 
+									showsHorizontalScrollIndicator={false}
 									data={item.photos}
 									keyExtractor={(item)=>item._id}
 									renderItem={({item})=>(
@@ -85,7 +123,12 @@ const MyPortfolioScreen = ({navigation})=>{
 						<View>
 							<MyDivider/>
 							<Spacer>
-								<Text h4 style={styles.text}>Timeline</Text>
+								<View style={styles.titleContainer}>								
+									<Text h4 style={styles.text}>Timeline</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('TimelineForm', {portfolio:portfolio})}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
+									</TouchableOpacity>						
+								</View>
 							</Spacer>
 							<TimelineSection timeline={portfolio.timeline}/>
 					        <Spacer/>
@@ -101,7 +144,8 @@ const MyPortfolioScreen = ({navigation})=>{
 		)
 	}else{
 		return(
-			<Text>Loading</Text>
+			<CreateForm type="Create" btnType="Add"/>
+			
 		)
 	}
 }
@@ -131,6 +175,28 @@ const styles = StyleSheet.create({
 		marginBottom:5,
 		color:'white'
 	},
+	button:{
+		backgroundColor:'#00ad8e',
+		borderRadius:25
+	},
+	titleContainer:{
+		display:'flex',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		
+	},
+	header:{
+		display:'flex', 
+		flexDirection: 'row', 
+		justifyContent:'space-between', 
+		alignItems:'center', 
+		height:0.07*height
+	},
+	signout:{
+		fontSize:18, 
+		color:'#00ad8e', 
+		marginHorizontal:0.05*width
+	}
 });
 
 

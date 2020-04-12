@@ -10,6 +10,7 @@ import BioSection from '../components/BioSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
 import {getPortfolio, clearPortfolio} from '../store/actions/portfolios';
+import Loading from '../components/Loading';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -24,24 +25,29 @@ const PortfolioShowScreen = ({navigation})=>{
 			dispatch(clearPortfolio());
 		}
 	},[itemId])
+	
 	if(portfolio){
 		return(
 			<SafeAreaView style={styles.container} forceInset={{ top: 'always' }}>
 				<FlatList
 					ListHeaderComponent={
 						<View>
-							<ImageHeader image={portfolio.headerImage}/>
+							{portfolio.headerImage && (
+								<ImageHeader image={portfolio.headerImage}/>
+							)}
+							
 							<ProfileSection 
-								profileImage={portfolio.profileImage}
-								name={portfolio.name}
-								recommendations={portfolio.recommendations}					
+								portfolio={portfolio}
+								navigation={navigation}		
+								id={itemId}
+								btnTitle='Recommend'		
 							/>
 							<MyDivider/>
+							<Spacer>
+									<Text style={styles.text} h4>About</Text>
+								</Spacer>
 							<BioSection
-								about={portfolio.about}
-								location={portfolio.location}
-								type={portfolio.type}
-								birthday={portfolio.birthday} 
+								portfolio={portfolio}
 							/>
 							<MyDivider/>
 							<Spacer>
@@ -54,9 +60,10 @@ const PortfolioShowScreen = ({navigation})=>{
 					renderItem={({item})=>{
 						return(
 						
-							<View style={{alignItems:'center'}}>
+							<View>
 								<FlatList 
 									horizontal 
+									showsHorizontalScrollIndicator={false}
 									data={item.photos}
 									keyExtractor={(item)=>item._id}
 									renderItem={({item})=>(
@@ -86,7 +93,6 @@ const PortfolioShowScreen = ({navigation})=>{
 								<Text h4 style={styles.text}>Timeline</Text>
 							</Spacer>
 							<TimelineSection timeline={portfolio.timeline}/>
-					        <Spacer/>
 					        <MyDivider/>
 					        <Spacer>
 					        	<Text h4 style={styles.text}>Comments</Text>
@@ -99,7 +105,7 @@ const PortfolioShowScreen = ({navigation})=>{
 		)
 	}else{
 		return(
-			<Text>Loading...</Text>
+			<Loading/>
 		)
 	}
 }

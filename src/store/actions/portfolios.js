@@ -23,6 +23,15 @@ export const clearPortfolio = ()=>{
 	}
 }
 
+
+export const fetchRecommendations = (recommendations, recommending)=>{
+	return {
+		type:'FETCH_RECOMMENDATIONS',
+		recommendations,
+		recommending
+	}
+}
+
 export const fetchPortfolios = ()=>{
 	return async dispatch =>{
 		try{
@@ -37,12 +46,23 @@ export const fetchPortfolios = ()=>{
 export const getPortfolio = (id)=>{
 	return async dispatch=>{
 		try{
-			console.log(id);
 			const response = await apiCall.get(`/api/portfolios/${id}`);
-			console.log(response.data);
 			dispatch(showPortfolio(response.data));
 		}catch(err){
-			dispatch(addErrorMessage(err.response.data));
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const getRecommendations = (id)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.get(`/api/portfolios/${id}/recommendations`);
+			const {recommendations, recommending}= response.data;
+			dispatch(fetchRecommendations(recommendations, recommending));
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error))
 		}
 	}
 }
