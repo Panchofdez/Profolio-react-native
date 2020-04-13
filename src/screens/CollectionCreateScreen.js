@@ -72,10 +72,6 @@ const CollectionCreateScreen = ()=>{
 			<SafeAreaView style={styles.container}> 
 				<ScrollView>
 					<Spacer>
-						<Text style={styles.text}h4>Create a Collection</Text>
-						<Text style={styles.text}>You can always add more photos later</Text>
-					</Spacer>
-					<Spacer>
 						<Input 
 							labelStyle={styles.labelStyle} 
 							inputStyle={styles.inputStyle} 
@@ -94,6 +90,9 @@ const CollectionCreateScreen = ()=>{
 						/>
 					</Spacer>
 					<Spacer>
+						<Text style={styles.text}>You can always add more photos later</Text>
+					</Spacer>
+					<Spacer>
 						<Button 
 							buttonStyle={styles.button} 
 							title="Add a photo" 
@@ -109,13 +108,27 @@ const CollectionCreateScreen = ()=>{
 							}
 						/>	
 					</Spacer>
+
 					<View style={styles.imageContainer}>
 							{image && (<Image source={{uri:image}} style={styles.image} containerStyle={styles.imageContainerStyle}/>)}
 							
 						</View>
 					<View style={{justifyContent:'flex-end', flex:1}}>
 						<Spacer>
-							<Button buttonStyle={styles.button} title="Create" onPress={handleSubmit}/>	
+							<Button 
+								buttonStyle={styles.button} 
+								title="Create Collection" 
+								onPress={handleSubmit}
+								icon={
+									<FontAwesome5
+								      name="check-circle"
+								      solid
+								      size={25}
+								      color="white"
+								      style={{marginHorizontal:10}}
+								    />
+								}
+							/>	
 						</Spacer>
 					</View>
 				</ScrollView>
@@ -136,7 +149,7 @@ const styles= StyleSheet.create({
 	},
 	text:{
 		color:'white',
-		marginBottom:10
+		margin:10
 	},
 	inputStyle:{
 		color:'white',

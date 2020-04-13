@@ -1,16 +1,16 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import {SafeAreaView, View, StyleSheet} from 'react-native';
 import {Text, Button, Input, ListItem} from 'react-native-elements';
 import Spacer from '../components/Spacer';
-import {FontAwesome5 , MaterialCommunityIcons} from '@expo/vector-icons'
+import Divider from '../components/Divider';
+import {FontAwesome5} from '@expo/vector-icons'
 
 const WorkFormScreen = ({navigation})=>{
 	const {portfolio}= navigation.state.params;
 	return (
 		<SafeAreaView style={styles.container}>
 			<Spacer>
-				<Text style={styles.text} h4>My Work</Text>
-				<Text style={styles.text}>Showcase your work and/or projects through collections of photos and videos</Text>
+				<Text style={styles.text}>Showcase your work and projects through collections of photos and videos</Text>
 			</Spacer>
 			<Spacer>
 				<Button 
@@ -45,31 +45,7 @@ const WorkFormScreen = ({navigation})=>{
 					}
 				/>	
 			</Spacer>
-			<Spacer>
-				<Text style={{color:'white', fontSize:25, fontWeight:'bold'}}>Collections: </Text>
-			</Spacer>
-			<Spacer>
-				<FlatList
-					data={portfolio.collections}
-					keyExtractor={(item)=>item._id}
-					renderItem={({item})=>(
-						<TouchableOpacity onPress={()=>navigation.navigate('CollectionEdit', {collection:item})}>
-							<ListItem
-								containerStyle={styles.collectionContainer} 
-								leftAvatar={{source:{uri:item.photos[0].image}}}
-								title={item.title}
-								titleStyle={{color:'white'}}
-								bottomDivider
-								rightIcon={
-									
-										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>
-									
-								}
-							/>
-						</TouchableOpacity>
-					)}
-				/>
-			</Spacer>
+			<Spacer/>
 		</SafeAreaView>
 	)
 }
@@ -88,7 +64,8 @@ const styles= StyleSheet.create({
 	},
 	text:{
 		color:'white',
-		marginBottom:10
+		fontSize:25,
+		margin:10
 	},
 	collectionContainer:{
 		backgroundColor:'#161716',  

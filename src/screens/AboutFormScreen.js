@@ -5,6 +5,7 @@ import {Text, Button, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import {editAbout} from '../store/actions/myPortfolio';
 import Loading from '../components/Loading';
+import {FontAwesome5} from '@expo/vector-icons';
 
 const AboutFormScreen = ({navigation})=>{
 	const {portfolio} = navigation.state.params;
@@ -32,7 +33,6 @@ const AboutFormScreen = ({navigation})=>{
 			<SafeAreaView style={styles.container}>
 				<ScrollView>
 					<Spacer>
-						<Text style={styles.text} h4>About Me</Text>
 						<Text style={styles.text}>Tell us about who you are and what you do</Text>
 					</Spacer>
 					<Spacer>
@@ -71,7 +71,20 @@ const AboutFormScreen = ({navigation})=>{
 					</Spacer>
 					<View style={{justifyContent:'flex-end', flex:1}}>
 						<Spacer>
-							<Button buttonStyle={styles.button} title="Finish" onPress={()=>handleSubmit()}/>	
+							<Button 
+								buttonStyle={styles.button} 
+								title="Save Changes" 
+								onPress={()=>handleSubmit()}
+								icon={
+									<FontAwesome5
+								      name="check-circle"
+								      solid
+								      size={25}
+								      color="white"
+								      style={{marginHorizontal:10}}
+								    />
+								}
+							/>	
 						</Spacer>
 					</View>	
 				</ScrollView> 	
@@ -94,7 +107,8 @@ const styles= StyleSheet.create({
 	},
 	text:{
 		color:'white',
-		marginBottom:10
+		fontSize:25,
+		margin:10
 	},
 	bioContainer:{
 		borderColor:'white',

@@ -14,8 +14,10 @@ import RecommendationsScreen from './src/screens/RecommendationsScreen';
 import AboutFormScreen from './src/screens/AboutFormScreen';
 import WorkFormScreen from './src/screens/WorkFormScreen';
 import TimelineFormScreen from './src/screens/TimelineFormScreen';
+import TimelineEditFormScreen from './src/screens/TimelineEditFormScreen';
 import ProfileFormScreen from './src/screens/ProfileFormScreen';
 import CollectionCreateScreen from './src/screens/CollectionCreateScreen';
+import CollectionPhotosDeleteScreen from './src/screens/CollectionPhotosDeleteScreen'
 import CollectionEditScreen from './src/screens/CollectionEditScreen';
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
@@ -68,7 +70,9 @@ const switchNavigator = createSwitchNavigator({
       WorkForm:{screen:WorkFormScreen, navigationOptions:headerStyle},
       CollectionCreate:{screen:CollectionCreateScreen, navigationOptions:headerStyle},
       CollectionEdit:{screen:CollectionEditScreen, navigationOptions:headerStyle},
-      TimelineForm:{screen:TimelineFormScreen, navigationOptions:headerStyle}
+      CollectionPhotosDelete:{screen:CollectionPhotosDeleteScreen, navigationOptions:headerStyle},
+      TimelineForm:{screen:TimelineFormScreen, navigationOptions:headerStyle},
+      TimelineEditForm:{screen:TimelineEditFormScreen, navigationOptions:headerStyle},
     },{navigationOptions:{
           tabBarIcon:({tintColor})=><FontAwesome5 solid name="user" size={30} color={tintColor}/>,
 

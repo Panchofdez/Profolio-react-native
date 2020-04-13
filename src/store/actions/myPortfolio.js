@@ -93,9 +93,9 @@ export const editCollection = (collection, id)=>{
 export const deleteCollection = (id)=>{
 	return async dispatch=>{
 		try{
+			console.log(id);
 			const response = await apiCall.delete(`/api/myportfolio/collections/${id}`);
 			dispatch(setUserPortfolio(response.data));
-			navigate('MyPortfolio');
 		}catch(err){
 			dispatch(addErrorMessage(err.response.data.error));
 	
@@ -112,6 +112,44 @@ export const deleteCollectionPhoto =(id, photo_id)=>{
 		}catch(err){
 			dispatch(addErrorMessage(err.response.data.error));
 			
+		}
+	}
+}
+
+
+export const createTimelinePost = (post)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.post('/api/myportfolio/timeline', post);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const editTimelinePost = (post, id)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.put(`/api/myportfolio/timeline/${id}`, post);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+export const deleteTimelinePost = (id)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.delete(`/api/myportfolio/timeline/${id}`);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
 		}
 	}
 }

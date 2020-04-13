@@ -4,16 +4,18 @@ import {SafeAreaView, View, StyleSheet, Dimensions, TextInput} from 'react-nativ
 import {Text, Button, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
-import {createTimelinePost} from '../store/actions/myPortfolio';
 import {FontAwesome5} from '@expo/vector-icons';
+import {editTimelinePost, deleteTimelinePost} from '../store/actions/myPortfolio';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const TimelineFormScreen = ({navigation})=>{
-	const [title, setTitle]=useState('');
-	const [date, setDate]=useState('');
-	const [text, setText]=useState('');
+const TimelineEditFormScreen = ({navigation})=>{
+	const {post} = navigation.state.params;
+	const [title, setTitle]=useState(post.title);
+	const [date, setDate]=useState(post.date);
+	const [text, setText]=useState(post.text);
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const handleSubmit=()=>{
@@ -25,18 +27,20 @@ const TimelineFormScreen = ({navigation})=>{
 			}
 		}
 		setLoading(true);
-		dispatch(createTimelinePost(data));
+		dispatch(editTimelinePost(data, post._id));
 
 	}
+	const handleDelete = ()=>{
+		console.log(post._id);
+		dispatch(deleteTimelinePost(post._id));
+	}
+	
 	if(loading){
 		return <Loading/>
 	}else{
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<Spacer>
-					<Text style={styles.title}>Add achievements, events, education and past jobs to your career timeline</Text>
-				</Spacer>
 				<Spacer>
 					<Input 
 						labelStyle={styles.labelStyle} 
@@ -68,7 +72,7 @@ const TimelineFormScreen = ({navigation})=>{
 				<Spacer>
 					<Button 
 						buttonStyle={styles.button} 
-						title="Add Post To Timeline" 
+						title="Save Changes" 
 						onPress={()=>handleSubmit()}
 						icon={
 							<FontAwesome5
@@ -79,6 +83,23 @@ const TimelineFormScreen = ({navigation})=>{
 						      style={{marginHorizontal:10}}
 						    />
 						}
+					/>	
+				</Spacer>
+				<Spacer>
+					<Button 
+						buttonStyle={styles.deleteBtn} 
+						title="Delete Post" 
+						onPress={()=>handleDelete()} 
+						icon={
+							<FontAwesome5
+						      name="trash"
+						      solid
+						      size={25}
+						      color="white"
+						      style={{marginHorizontal:10}}
+						    />
+						}
+
 					/>	
 				</Spacer>
 			</SafeAreaView>
@@ -123,12 +144,11 @@ const styles= StyleSheet.create({
 		marginHorizontal:10,
 		fontSize:18
 	},
-	title:{
-		color:'white',
-		margin:10,
-		fontSize:25
-	},
+	deleteBtn:{
+		backgroundColor:'#c74130',
+		borderRadius:25
+	}
 });
 
 
-export default TimelineFormScreen;
+export default TimelineEditFormScreen;

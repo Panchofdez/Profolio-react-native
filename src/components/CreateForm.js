@@ -136,10 +136,18 @@ const CreateForm =({navigation, portfolio, type, btnType})=>{
 						setName('')
 						setLoading(false)
 					}}/>	
-					<Spacer>
-						<Text style={styles.text} h4>{type} Your Portfolio</Text>
-						<Text style={styles.text}>Let's make it easy for people to find and identify you</Text>
-					</Spacer>
+					{type==='Create' ?(
+						<Spacer>
+							<Text style={styles.text} h4>Create Your Portfolio</Text>
+							<Text style={styles.text}>Let's make it easy for people to find you</Text>
+						</Spacer>
+						): (
+							<Spacer>
+								<Text style={styles.title}>Let's make it easy for people to find you</Text>
+							</Spacer>
+						)}						
+						
+					
 					<Spacer>
 						<Input 
 							labelStyle={{color:'white'}} 
@@ -217,6 +225,11 @@ const styles= StyleSheet.create({
 	text:{
 		color:'white',
 		marginBottom:10
+	},
+	title:{
+		color:'white',
+		fontSize:25,
+		margin:10
 	},
 	profileImage:{
 		width:0.35 * width,

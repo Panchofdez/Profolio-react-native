@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
-import {Text, Button, Image, Header} from 'react-native-elements';
+import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity, Animated} from 'react-native';
+import {Text, Button, Image, Header, Overlay} from 'react-native-elements';
+import { SliderBox } from "react-native-image-slider-box";
 import Spacer from '../components/Spacer';
 import CommentsSection from '../components/CommentsSection';
 import ProfileSection from '../components/ProfileSection';
@@ -12,8 +13,8 @@ import TimelineSection from '../components/TimelineSection';
 import CreateForm from '../components/CreateForm';
 import Loading from '../components/Loading';
 import {signout} from '../store/actions/currentUser';
-import {fetchMyPortfolio} from '../store/actions/myPortfolio';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {fetchMyPortfolio, deleteCollection} from '../store/actions/myPortfolio';
+import {MaterialCommunityIcons, SimpleLineIcons, FontAwesome5} from '@expo/vector-icons';
 
 
 const width = Dimensions.get('window').width;
@@ -23,6 +24,10 @@ const MyPortfolioScreen = ({navigation})=>{
 	const dispatch=useDispatch();
 	const portfolio = useSelector((state)=>state.currentUser.portfolio)
 	const [loading, setLoading] = useState(true)
+	const [isVisible, setIsVisible] = useState(false);
+	const [selectedCollection, setSelectedCollection] =useState(null);
+	const scrollX = new Animated.Value(0)
+	let position = Animated.divide(scrollX, width);
 	useEffect(()=>{
 		fetch();
 	},[]);
@@ -91,28 +96,30 @@ const MyPortfolioScreen = ({navigation})=>{
 					data={portfolio.collections}
 					keyExtractor={(item)=>item._id}
 					renderItem={({item})=>{
+						const images = item.photos.map((photo)=>photo.image);
 						return(
 						
 							<View>
-								<FlatList 
-									horizontal 
-									showsHorizontalScrollIndicator={false}
-									data={item.photos}
-									keyExtractor={(item)=>item._id}
-									renderItem={({item})=>(
-										<Image 
-											key={item._id} 
-											source={{uri:item.image}} 
-											style={styles.collectionPhoto}
-											containerStyle={styles.photoContainer}
-											PlaceholderContent={<ActivityIndicator />}
-										/>
-									)}
-
+								<SliderBox
+									images={images}
+									sliderBoxHeight={450}
+									dotColor="#00ad8e"
 								/>
 								<Spacer>
-									<Text style={styles.name}>{item.title}</Text>
-									<Text style={styles.text}>{item.description}</Text>
+									<View style={styles.collectionInfoContainer}>
+										<View>
+											<Text style={styles.name}>{item.title}</Text>
+											<Text style={styles.text}>{item.description}</Text>
+										</View>
+									
+										<TouchableOpacity onPress={()=>{
+											setIsVisible(true);
+											setSelectedCollection(item);
+										}}>
+											<SimpleLineIcons name="options-vertical" size={30} color='white'/>
+										</TouchableOpacity>
+									
+									</View>
 								</Spacer>
 								<Spacer/>
 							</View>
@@ -121,16 +128,62 @@ const MyPortfolioScreen = ({navigation})=>{
 					}}
 					ListFooterComponent={
 						<View>
+							<Overlay
+							  isVisible={isVisible}
+							  borderRadius={25}
+							  height={0.5*width}
+							  height={0.23 * height}
+							  onBackdropPress={() => setIsVisible(false)}
+							>
+								<View>
+								 <Button 
+								 	title="Edit Collection" 
+								 	buttonStyle={styles.button}
+								 	onPress={()=>{
+								 		setIsVisible(false);
+								 		navigation.navigate('CollectionEdit', {collection: selectedCollection});
+
+								 	}}
+								 />
+								 <Button 
+								 	title="Choose Photos to Delete" 
+								 	buttonStyle={styles.button}
+								 	onPress={()=>{
+								 		setIsVisible(false);
+								 		navigation.navigate('CollectionPhotosDelete', {collection: selectedCollection})
+								 	}}
+								 />
+								 <Button 
+								 	title="Delete Entire Collection" 
+								 	buttonStyle={styles.deleteBtn}
+								 	icon={
+										<FontAwesome5
+									      name="trash"
+									      solid
+									      size={25}
+									      color="white"
+									      style={{marginHorizontal:10}}
+									    />
+									}
+								 	onPress={()=>{
+								 		setIsVisible(false);
+								 		setLoading(true);
+								 		dispatch(deleteCollection(selectedCollection._id))
+								 		setLoading(false);
+								 	}}
+								 />
+								</View>
+							</Overlay>
 							<MyDivider/>
 							<Spacer>
 								<View style={styles.titleContainer}>								
 									<Text h4 style={styles.text}>Timeline</Text>
-									<TouchableOpacity onPress={()=>navigation.navigate('TimelineForm', {portfolio:portfolio})}>
+									<TouchableOpacity onPress={()=>navigation.navigate('TimelineForm')}>
 										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
 									</TouchableOpacity>						
 								</View>
 							</Spacer>
-							<TimelineSection timeline={portfolio.timeline}/>
+							<TimelineSection timeline={portfolio.timeline} type="myPortfolio" navigation={navigation}/>
 					        <Spacer/>
 					        <MyDivider/>
 					        <Spacer>
@@ -177,7 +230,13 @@ const styles = StyleSheet.create({
 	},
 	button:{
 		backgroundColor:'#00ad8e',
-		borderRadius:25
+		borderRadius:25,
+		margin:10
+	},
+	deleteBtn:{
+		backgroundColor:'#c74130',
+		borderRadius:25,
+		margin:10
 	},
 	titleContainer:{
 		display:'flex',
@@ -196,6 +255,13 @@ const styles = StyleSheet.create({
 		fontSize:18, 
 		color:'#00ad8e', 
 		marginHorizontal:0.05*width
+	},
+	collectionInfoContainer:{
+		display:'flex',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'flex-start'
+		
 	}
 });
 

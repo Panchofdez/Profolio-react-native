@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {View, SafeAreaView, StyleSheet, Dimensions, FlatList,ActivityIndicator} from 'react-native';
 import {Text, Image} from 'react-native-elements';
+import { SliderBox } from "react-native-image-slider-box";
 import Spacer from '../components/Spacer';
 import CommentsSection from '../components/CommentsSection';
 import ProfileSection from '../components/ProfileSection';
@@ -58,24 +59,14 @@ const PortfolioShowScreen = ({navigation})=>{
 					data={portfolio.collections}
 					keyExtractor={(item)=>item._id}
 					renderItem={({item})=>{
+						const images = item.photos.map((photo)=>photo.image);
 						return(
 						
 							<View>
-								<FlatList 
-									horizontal 
-									showsHorizontalScrollIndicator={false}
-									data={item.photos}
-									keyExtractor={(item)=>item._id}
-									renderItem={({item})=>(
-										<Image 
-											key={item._id} 
-											source={{uri:item.image}} 
-											style={styles.collectionPhoto}
-											containerStyle={styles.photoContainer}
-											PlaceholderContent={<ActivityIndicator />}
-										/>
-									)}
-
+								<SliderBox
+									images={images}
+									sliderBoxHeight={450}
+									dotColor="#00ad8e"
 								/>
 								<Spacer>
 									<Text style={styles.name}>{item.title}</Text>
