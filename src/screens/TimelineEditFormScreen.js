@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView ,TextInput} from 'react-native';
 import {Text, Button, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
@@ -41,67 +41,69 @@ const TimelineEditFormScreen = ({navigation})=>{
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<Spacer>
-					<Input 
-						labelStyle={styles.labelStyle} 
-						inputStyle={styles.inputStyle} 
-						value={title}
-						onChangeText={setTitle}
-						label="Title"
-					/>
-				</Spacer>
-				<Spacer>
-					<Input 
-						labelStyle={styles.labelStyle} 
-						inputStyle={styles.inputStyle} 
-						value={date}
-						onChangeText={setDate}
-						label="Date"
-					/>
-				</Spacer>
-				<Spacer>
-					<Text style={styles.label}>Description</Text>
-					<TextInput 
-						multiline={true} 
-						numberOfLines={3} 
-						style={styles.description} 
-						value={text} 
-						onChangeText={setText}
-					/>				
-				</Spacer>
-				<Spacer>
-					<Button 
-						buttonStyle={styles.button} 
-						title="Save Changes" 
-						onPress={()=>handleSubmit()}
-						icon={
-							<FontAwesome5
-						      name="check-circle"
-						      solid
-						      size={25}
-						      color="white"
-						      style={{marginHorizontal:10}}
-						    />
-						}
-					/>	
-				</Spacer>
-				<Spacer>
-					<Button 
-						buttonStyle={styles.deleteBtn} 
-						title="Delete Post" 
-						onPress={()=>handleDelete()} 
-						icon={
-							<FontAwesome5
-						      name="trash"
-						      solid
-						      size={25}
-						      color="white"
-						      style={{marginHorizontal:10}}
-						    />
-						}
+				<ScrollView keyboardShouldPersistTaps="always">
+					<Spacer>
+						<Input 
+							labelStyle={styles.labelStyle} 
+							inputStyle={styles.inputStyle} 
+							value={title}
+							onChangeText={setTitle}
+							label="Title"
+						/>
+					</Spacer>
+					<Spacer>
+						<Input 
+							labelStyle={styles.labelStyle} 
+							inputStyle={styles.inputStyle} 
+							value={date}
+							onChangeText={setDate}
+							label="Date"
+						/>
+					</Spacer>
+					<Spacer>
+						<Text style={styles.label}>Description</Text>
+						<TextInput 
+							multiline={true} 
+							numberOfLines={3} 
+							style={styles.description} 
+							value={text} 
+							onChangeText={setText}
+						/>				
+					</Spacer>
+					<Spacer>
+						<Button 
+							buttonStyle={styles.button} 
+							title="Save Changes" 
+							onPress={()=>handleSubmit()}
+							icon={
+								<FontAwesome5
+							      name="check-circle"
+							      solid
+							      size={25}
+							      color="white"
+							      style={{marginHorizontal:10}}
+							    />
+							}
+						/>	
+					</Spacer>
+					<Spacer>
+						<Button 
+							buttonStyle={styles.deleteBtn} 
+							title="Delete Post" 
+							onPress={()=>handleDelete()} 
+							icon={
+								<FontAwesome5
+							      name="trash"
+							      solid
+							      size={25}
+							      color="white"
+							      style={{marginHorizontal:10}}
+							    />
+							}
 
-					/>	
-				</Spacer>
+						/>	
+					</Spacer>
+				</ScrollView>
 			</SafeAreaView>
 		)
 	}

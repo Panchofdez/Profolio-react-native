@@ -1,5 +1,6 @@
 import apiCall from '../../api/apiCall';
 import {addErrorMessage} from './errors';
+import {navigate} from '../../navigationRef';
 
 
 
@@ -63,6 +64,56 @@ export const getRecommendations = (id)=>{
 			dispatch(fetchRecommendations(recommendations, recommending));
 		}catch(err){
 			dispatch(addErrorMessage(err.response.data.error))
+		}
+	}
+}
+
+export const postComment = (id, comment)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.post(`/api/portfolios/${id}/comments`, comment);
+			console.log(response.data);
+			dispatch(showPortfolio(response.data));
+			navigate('PortfolioShow', {itemId:id});
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const deleteComment = (id, comment_id)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.delete(`/api/portfolios/${id}/comments/${comment_id}`);
+			dispatch(showPortfolio(response.data));
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+export const recommend =(id)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.post(`/api/portfolios/${id}/recommend`);
+			console.log(response.data);
+			dispatch(showPortfolio(response.data));
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const stopRecommending = (id)=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.post(`/api/portfolios/${id}/unrecommend`);
+			console.log(response.data);
+			dispatch(showPortfolio(response.data));
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
 		}
 	}
 }

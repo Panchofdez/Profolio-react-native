@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import {Input, Text, Button, Image} from 'react-native-elements';
 import {NavigationEvents} from 'react-navigation';
@@ -16,10 +16,11 @@ import Loading from '../components/Loading';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const CreateForm =({navigation, portfolio, type, btnType})=>{
+const CreateForm =({navigation, portfolio, type, btnType, submitBtnTitle})=>{
+	const user = useSelector((state)=>state.currentUser.user);
 	const [profileImage, setProfileImage]=useState(portfolio ? portfolio.profileImage : null);
 	const [coverPhoto, setCoverPhoto]=useState(portfolio ? portfolio.headerImage: null);
-	const [name, setName] = useState(portfolio ? portfolio.name : "");
+	const [name, setName] = useState(portfolio ? portfolio.name : user.name);
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const pickImage =async(type)=>{
@@ -113,6 +114,13 @@ const CreateForm =({navigation, portfolio, type, btnType})=>{
 						profileImageId:profileImageRes.public_id,
 					}
 				}
+			}else if(coverPhoto && coverPhoto!== portfolio.headerImage){
+				const coverPhotoResponse = await cloudinaryUpload(coverPhoto);
+				formData = {
+					name, 
+					headerImage:coverPhotoResponse.secure_url,
+					headerImageId:coverPhotoResponse.public_id
+				}
 			}else{
 				formData={
 					name
@@ -129,11 +137,11 @@ const CreateForm =({navigation, portfolio, type, btnType})=>{
 	}else{
 		return (
 			<SafeAreaView style={styles.container}>
-				<ScrollView>
+				<ScrollView keyboardShouldPersistTaps="always">
 					<NavigationEvents onWillBlur={()=>{
 						setCoverPhoto(null);
 						setProfileImage(null);
-						setName('')
+						setName(user.name)
 						setLoading(false)
 					}}/>	
 					{type==='Create' ?(
@@ -200,7 +208,20 @@ const CreateForm =({navigation, portfolio, type, btnType})=>{
 					</View>
 					<View style={{justifyContent:'flex-end', flex:1}}>
 						<Spacer>
-							<Button buttonStyle={styles.button} title="Finish" onPress={()=>handleSubmit()}/>	
+							<Button 
+								buttonStyle={styles.button} 
+								title={submitBtnTitle} 
+								onPress={()=>handleSubmit()}
+								icon={
+									<FontAwesome5
+								      name="check-circle"
+								      solid
+								      size={25}
+								      color="white"
+								      style={{marginHorizontal:10}}
+								    />
+								}
+							/>	
 						</Spacer>
 					</View>
 				</ScrollView>

@@ -134,6 +134,7 @@ const MyPortfolioScreen = ({navigation})=>{
 							  height={0.5*width}
 							  height={0.23 * height}
 							  onBackdropPress={() => setIsVisible(false)}
+							  overlayBackgroundColor='#303330'
 							>
 								<View>
 								 <Button 
@@ -197,7 +198,7 @@ const MyPortfolioScreen = ({navigation})=>{
 		)
 	}else{
 		return(
-			<CreateForm type="Create" btnType="Add"/>
+			<CreateForm type="Create" btnType="Add" submitBtnTitle="Create"/>
 			
 		)
 	}

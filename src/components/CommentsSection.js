@@ -1,32 +1,52 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {FlatList, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Text, ListItem} from 'react-native-elements';
+import {FontAwesome5} from '@expo/vector-icons';
+import {deleteComment} from '../store/actions/portfolios';
+import moment from "moment";
 
 
-const CommentsSection = ({comments})=>{
+const CommentsSection = ({comments, portfolioId})=>{
+	const dispatch = useDispatch();
+	const user = useSelector((state)=>state.currentUser.user)
 	return(
 		<FlatList
 			listKey={(item, index) => 'D' + index.toString()}
 	    	data={comments}
 	    	keyExtractor={(item)=>item._id}
-	    	renderItem={({item})=>(
-	    		<View style={styles.commentCard}>
-	    			<ListItem
-	    				containerStyle={styles.commentContainer} 
-	    				title={item.author.name}
-	    				titleStyle={styles.name}
-	    				leftAvatar={{source:{uri:item.author.profileImage}}}
-	    				bottomDivider
-	    				subtitle={
-	    					<View>
-	    						<Text style={styles.text}>{item.createdAt}</Text>
-	    						<Text style={styles.text}>{item.text}</Text>
-	    					</View>
-	    				}
-	    			/>
-	    		</View>
+	    	renderItem={({item})=>{
+	    		console.log(item);
+	    		return(
+	    			<View style={styles.commentCard}>
+		    			<ListItem
+		    				containerStyle={styles.commentContainer} 
+		    				title={item.author.name}
+		    				titleStyle={styles.name}
+		    				leftAvatar={{source:{uri:item.author.profileImage}}}
+		    				bottomDivider
+		    				subtitle={
+		    					<View>
+		    						<Text style={styles.text}>{moment(item.createdAt).fromNow()}</Text>
+		    						<Text style={styles.text}>{item.text}</Text>
+		    					</View>
+		    				}
+		    				rightIcon={item.author.id===user.userId ? (
+		    					<TouchableOpacity onPress={()=>dispatch(deleteComment(portfolioId,item._id))}> 
+									<FontAwesome5
+								      name="trash"
+								      solid
+								      size={20}
+								      color="#c74130"
+								      style={{marginHorizontal:10}}
+								    />
+								</TouchableOpacity>
+		    				): null}
+		    			/>
+		    		</View>
+		    	)
 
-	    	)}
+	    	}}
 	    />
 
 	)

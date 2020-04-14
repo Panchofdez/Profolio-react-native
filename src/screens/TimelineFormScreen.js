@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View, StyleSheet, Dimensions, TextInput} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions, TextInput, ScrollView} from 'react-native';
 import {Text, Button, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
@@ -34,53 +34,55 @@ const TimelineFormScreen = ({navigation})=>{
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<Spacer>
-					<Text style={styles.title}>Add achievements, events, education and past jobs to your career timeline</Text>
-				</Spacer>
-				<Spacer>
-					<Input 
-						labelStyle={styles.labelStyle} 
-						inputStyle={styles.inputStyle} 
-						value={title}
-						onChangeText={setTitle}
-						label="Title"
-					/>
-				</Spacer>
-				<Spacer>
-					<Input 
-						labelStyle={styles.labelStyle} 
-						inputStyle={styles.inputStyle} 
-						value={date}
-						onChangeText={setDate}
-						label="Date"
-					/>
-				</Spacer>
-				<Spacer>
-					<Text style={styles.label}>Description</Text>
-					<TextInput 
-						multiline={true} 
-						numberOfLines={3} 
-						style={styles.description} 
-						value={text} 
-						onChangeText={setText}
-					/>				
-				</Spacer>
-				<Spacer>
-					<Button 
-						buttonStyle={styles.button} 
-						title="Add Post To Timeline" 
-						onPress={()=>handleSubmit()}
-						icon={
-							<FontAwesome5
-						      name="check-circle"
-						      solid
-						      size={25}
-						      color="white"
-						      style={{marginHorizontal:10}}
-						    />
-						}
-					/>	
-				</Spacer>
+				<ScrollView keyboardShouldPersistTaps="always">
+					<Spacer>
+						<Text style={styles.title}>Add achievements, events, education and past jobs to your career timeline</Text>
+					</Spacer>
+					<Spacer>
+						<Input 
+							labelStyle={styles.labelStyle} 
+							inputStyle={styles.inputStyle} 
+							value={title}
+							onChangeText={setTitle}
+							label="Title"
+						/>
+					</Spacer>
+					<Spacer>
+						<Input 
+							labelStyle={styles.labelStyle} 
+							inputStyle={styles.inputStyle} 
+							value={date}
+							onChangeText={setDate}
+							label="Date"
+						/>
+					</Spacer>
+					<Spacer>
+						<Text style={styles.label}>Description</Text>
+						<TextInput 
+							multiline={true} 
+							numberOfLines={3} 
+							style={styles.description} 
+							value={text} 
+							onChangeText={setText}
+						/>				
+					</Spacer>
+					<Spacer>
+						<Button 
+							buttonStyle={styles.button} 
+							title="Add Post To Timeline" 
+							onPress={()=>handleSubmit()}
+							icon={
+								<FontAwesome5
+							      name="check-circle"
+							      solid
+							      size={25}
+							      color="white"
+							      style={{marginHorizontal:10}}
+							    />
+							}
+						/>	
+					</Spacer>
+				</ScrollView>
 			</SafeAreaView>
 		)
 	}

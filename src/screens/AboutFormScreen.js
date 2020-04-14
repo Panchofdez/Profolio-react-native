@@ -31,7 +31,7 @@ const AboutFormScreen = ({navigation})=>{
 	}else{
 		return (
 			<SafeAreaView style={styles.container}>
-				<ScrollView>
+				<ScrollView keyboardShouldPersistTaps="always">
 					<Spacer>
 						<Text style={styles.text}>Tell us about who you are and what you do</Text>
 					</Spacer>

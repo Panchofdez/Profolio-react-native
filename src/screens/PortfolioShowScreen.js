@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, SafeAreaView, StyleSheet, Dimensions, FlatList,ActivityIndicator} from 'react-native';
-import {Text, Image} from 'react-native-elements';
+import {View, SafeAreaView, StyleSheet, Dimensions, FlatList,ActivityIndicator, TextInput, TouchableOpacity} from 'react-native';
+import {Text, Image, Button} from 'react-native-elements';
 import { SliderBox } from "react-native-image-slider-box";
 import Spacer from '../components/Spacer';
 import CommentsSection from '../components/CommentsSection';
@@ -12,6 +12,8 @@ import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
 import {getPortfolio, clearPortfolio} from '../store/actions/portfolios';
 import Loading from '../components/Loading';
+import{MaterialCommunityIcons} from '@expo/vector-icons';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -25,7 +27,7 @@ const PortfolioShowScreen = ({navigation})=>{
 		return ()=>{
 			dispatch(clearPortfolio());
 		}
-	},[itemId])
+	},[itemId]);
 	
 	if(portfolio){
 		return(
@@ -80,15 +82,23 @@ const PortfolioShowScreen = ({navigation})=>{
 					ListFooterComponent={
 						<View>
 							<MyDivider/>
+
 							<Spacer>
 								<Text h4 style={styles.text}>Timeline</Text>
 							</Spacer>
-							<TimelineSection timeline={portfolio.timeline}/>
+							{portfolio.timeline.length>0 &&(
+								<TimelineSection timeline={portfolio.timeline}/>
+							)}						
 					        <MyDivider/>
 					        <Spacer>
-					        	<Text h4 style={styles.text}>Comments</Text>
+					        <View style={styles.titleContainer}>								
+								<Text h4 style={styles.text}>Comments</Text>
+								<TouchableOpacity onPress={()=>navigation.navigate('CommentForm')}>
+									<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
+								</TouchableOpacity>						
+							</View>
 					        </Spacer>
-					        <CommentsSection comments={portfolio.comments}/>
+					        <CommentsSection comments={portfolio.comments} portfolioId={portfolio._id}/>
 					    </View>
 					}
 				/>
@@ -126,6 +136,16 @@ const styles = StyleSheet.create({
 		marginBottom:5,
 		color:'white'
 	},
+	button:{
+		backgroundColor:'#00ad8e',
+		borderRadius:25,
+	},
+	titleContainer:{
+		display:'flex',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		
+	}
 });
 
 

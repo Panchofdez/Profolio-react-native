@@ -29,7 +29,6 @@ export const signin =(type, formData)=>{
 	return async dispatch =>{
 		try{
 			const response = await apiCall.post(`/api/${type}`, formData );
-			console.log(response.data);
 			const {token, ...user} = response.data;
 			await AsyncStorage.setItem('token', token);
 			dispatch(setCurrentUser(user));
@@ -57,5 +56,16 @@ export const signout =()=>{
 	}
 }
 
+
+export const getUser=()=>{
+	return async dispatch=>{
+		try{
+			const response = await apiCall.get('/api/user');
+			dispatch(setCurrentUser(response.data));
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
 
 

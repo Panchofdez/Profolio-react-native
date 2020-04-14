@@ -19,6 +19,7 @@ import ProfileFormScreen from './src/screens/ProfileFormScreen';
 import CollectionCreateScreen from './src/screens/CollectionCreateScreen';
 import CollectionPhotosDeleteScreen from './src/screens/CollectionPhotosDeleteScreen'
 import CollectionEditScreen from './src/screens/CollectionEditScreen';
+import CommentFormScreen from './src/screens/CommentFormScreen'
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
 import {Entypo, FontAwesome5} from '@expo/vector-icons';
@@ -45,6 +46,7 @@ const switchNavigator = createSwitchNavigator({
     portfoliosFlow:createStackNavigator({
       Portfolios:{screen: PortfoliosScreen, navigationOptions:{headerShown:false}},
       PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:headerStyle},
+      CommentForm:{screen:CommentFormScreen, navigationOptions:headerStyle},
       Recommendations:{screen:RecommendationsScreen, navigationOptions:headerStyle}
     }, {
             navigationOptions:{

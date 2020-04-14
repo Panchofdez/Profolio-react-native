@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {StyleSheet, Dimensions, View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Image, Text, Button} from 'react-native-elements';
 import Spacer from './Spacer';
+import {recommend, stopRecommending} from '../store/actions/portfolios';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const ProfileSection = ({portfolio, navigation, btnTitle, id})=>{
+	const dispatch =useDispatch();
 	const {profileImage, name, recommendations} = portfolio;
+	const user = useSelector((state)=>state.currentUser.user);
+	const [recommending, setRecommending] =useState(false);
+	useEffect(()=>{
+		checkRecommendation();
+	},[])
+	const checkRecommendation = ()=>{
+		const isRecommending = recommendations.find((id)=>id===user.userId);
+		if(isRecommending){
+			setRecommending(true);
+		}else{
+			return;
+		}
+	};
 	return(
 		<Spacer>
 			<View style={styles.profile}>							
@@ -25,10 +41,19 @@ const ProfileSection = ({portfolio, navigation, btnTitle, id})=>{
 					</TouchableOpacity>
 					<Button 
 						type="outline" 
-						title={btnTitle} 
-						buttonStyle={styles.button} 
-						titleStyle={{color:'#00ad8e'}}
-
+						title={recommending? 'Recommending' : 'Recommend'} 
+						buttonStyle={recommending? styles.recommending : styles.recommend} 
+						titleStyle={recommending? styles.recommendingTitle : styles.recommendTitle}
+						onPress={()=>{
+							if(recommending){
+								dispatch(stopRecommending(id));
+								setRecommending(false);
+							}else{
+								dispatch(recommend(id));
+								setRecommending(true);
+							}
+							
+						}}
 					/>
 					
 				</View>
@@ -69,14 +94,28 @@ const styles = StyleSheet.create({
 		color:'#00ad8e',
 		fontWeight:'bold'
 	},
-	button:{
+	recommend:{
   		borderColor:'#00ad8e',
   		backgroundColor:'transparent',
   		alignSelf:'stretch',
   		marginVertical:10,
   		width:0.53 *width,
   		borderRadius:25
+  	},
+  	recommending:{
+  		backgroundColor:'#00ad8e',
+  		alignSelf:'stretch',
+  		marginVertical:10,
+  		width:0.53 *width,
+  		borderRadius:25
+  	},
+  	recommendTitle:{
+  		color:'#00ad8e'
+  	},
+  	recommendingTitle:{
+  		color:'white'
   	}
+
 })
 
 
