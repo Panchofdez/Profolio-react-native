@@ -19,6 +19,8 @@ import ProfileFormScreen from './src/screens/ProfileFormScreen';
 import CollectionCreateScreen from './src/screens/CollectionCreateScreen';
 import CollectionPhotosDeleteScreen from './src/screens/CollectionPhotosDeleteScreen'
 import CollectionEditScreen from './src/screens/CollectionEditScreen';
+import VideosCreateScreen from './src/screens/VideosCreateScreen';
+import VideosEditScreen from './src/screens/VideosEditScreen';
 import CommentFormScreen from './src/screens/CommentFormScreen'
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
@@ -73,6 +75,8 @@ const switchNavigator = createSwitchNavigator({
       CollectionCreate:{screen:CollectionCreateScreen, navigationOptions:headerStyle},
       CollectionEdit:{screen:CollectionEditScreen, navigationOptions:headerStyle},
       CollectionPhotosDelete:{screen:CollectionPhotosDeleteScreen, navigationOptions:headerStyle},
+      VideosCreate:{screen:VideosCreateScreen, navigationOptions:headerStyle},
+      VideosEdit:{screen:VideosEditScreen, navigationOptions:headerStyle},
       TimelineForm:{screen:TimelineFormScreen, navigationOptions:headerStyle},
       TimelineEditForm:{screen:TimelineEditFormScreen, navigationOptions:headerStyle},
     },{navigationOptions:{

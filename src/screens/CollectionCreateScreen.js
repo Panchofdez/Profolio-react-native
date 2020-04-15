@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View, StyleSheet,ScrollView, Dimensions} from 'react-native';
+import {SafeAreaView, View, StyleSheet,ScrollView, Dimensions, TextInput} from 'react-native';
 import {Text, Button, Image, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
@@ -70,7 +70,10 @@ const CollectionCreateScreen = ()=>{
 
 		return (
 			<SafeAreaView style={styles.container}> 
-				<ScrollView>
+				<ScrollView keyboardShouldPersistTaps="handled">
+					<Spacer>
+						<Text style={styles.title}>A visual representation of your projects and career</Text>
+					</Spacer>
 					<Spacer>
 						<Input 
 							labelStyle={styles.labelStyle} 
@@ -81,13 +84,14 @@ const CollectionCreateScreen = ()=>{
 						/>
 					</Spacer>
 					<Spacer>
-						<Input 
-							labelStyle={styles.labelStyle} 
-							inputStyle={styles.inputStyle} 
-							value={description}
+						<Text style={styles.label}>Description</Text>
+						<TextInput 
+							multiline={true} 
+							numberOfLines={3} 
+							style={styles.description} 
+							value={description} 
 							onChangeText={setDescription}
-							label="Description"
-						/>
+						/>				
 					</Spacer>
 					<Spacer>
 						<Text style={styles.text}>You can always add more photos later</Text>
@@ -156,8 +160,14 @@ const styles= StyleSheet.create({
 		fontSize:18
 	},
 	labelStyle:{
-		color:'white'
+		color:'white',
+		fontSize:18
 	},
+	title:{
+		color:'white',
+		margin:10,
+		fontSize:25
+	},   
 	imageContainerStyle:{
 		borderRadius:25, 
 		overflow:'hidden'
@@ -168,6 +178,20 @@ const styles= StyleSheet.create({
 	image:{
 		width:0.90*width,
 		height:0.30*height
+	},
+	label:{
+		color:'white',
+		marginBottom:10,
+		marginHorizontal:10,
+		fontSize:18,
+		fontWeight:'bold'
+	},
+	description:{
+		color:'white', 
+		borderColor: 'rgba(250,250,250,0.6)',
+		borderBottomWidth: 1,
+		marginHorizontal:10,
+		fontSize:18
 	}
 })
 

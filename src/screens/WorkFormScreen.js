@@ -10,7 +10,7 @@ const WorkFormScreen = ({navigation})=>{
 	return (
 		<SafeAreaView style={styles.container}>
 			<Spacer>
-				<Text style={styles.text}>Showcase your work and projects through collections of photos and videos</Text>
+				<Text style={styles.text}>Showcase your work through collections of photos and videos</Text>
 			</Spacer>
 			<Spacer>
 				<Button 
@@ -34,6 +34,7 @@ const WorkFormScreen = ({navigation})=>{
 				<Button 
 					buttonStyle={styles.button} 
 					title="Add a video"
+					onPress={()=>navigation.navigate('VideosCreate')}
 					icon={
 					    <FontAwesome5
 					      name="video"

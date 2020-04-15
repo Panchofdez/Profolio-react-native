@@ -8,7 +8,7 @@ import {recommend, stopRecommending} from '../store/actions/portfolios';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const ProfileSection = ({portfolio, navigation, btnTitle, id})=>{
+const ProfileSection = ({portfolio, navigation, btnType, id})=>{
 	const dispatch =useDispatch();
 	const {profileImage, name, recommendations} = portfolio;
 	const user = useSelector((state)=>state.currentUser.user);
@@ -39,22 +39,33 @@ const ProfileSection = ({portfolio, navigation, btnTitle, id})=>{
 					<TouchableOpacity onPress={()=>navigation.navigate('Recommendations',{itemId:id})}>
 						<Text style={styles.text}>{recommendations.length} Recommendations</Text>
 					</TouchableOpacity>
-					<Button 
-						type="outline" 
-						title={recommending? 'Recommending' : 'Recommend'} 
-						buttonStyle={recommending? styles.recommending : styles.recommend} 
-						titleStyle={recommending? styles.recommendingTitle : styles.recommendTitle}
-						onPress={()=>{
-							if(recommending){
-								dispatch(stopRecommending(id));
-								setRecommending(false);
-							}else{
-								dispatch(recommend(id));
-								setRecommending(true);
-							}
-							
-						}}
-					/>
+					{btnType==='Recommend' && (
+						<Button 
+							type="outline" 
+							title={recommending? 'Recommending' : 'Recommend'} 
+							buttonStyle={recommending? styles.recommending : styles.recommend} 
+							titleStyle={recommending? styles.recommendingTitle : styles.recommendTitle}
+							onPress={()=>{
+								if(recommending){
+									dispatch(stopRecommending(id));
+									setRecommending(false);
+								}else{
+									dispatch(recommend(id));
+									setRecommending(true);
+								}
+								
+							}}
+						/>
+					)}
+					{btnType==='Share' &&(
+						<Button 
+							type="outline" 
+							title={btnType} 
+							buttonStyle={styles.recommend} 
+							titleStyle={styles.recommendTitle}
+						/>
+
+					)}
 					
 				</View>
 			</View>

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {SafeAreaView,ScrollView, KeyboardAvoidingView, StyleSheet,TextInput, TouchableOpacity} from 'react-native';
+import {SafeAreaView,ScrollView, StyleSheet,TextInput, TouchableOpacity} from 'react-native';
 import { Button} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import {postComment} from '../store/actions/portfolios';
 import {FontAwesome5}from '@expo/vector-icons';
+
 
 
 const CommentFormScreen = ({navigation})=>{
@@ -28,7 +29,7 @@ const CommentFormScreen = ({navigation})=>{
 	}
 	return(
 		<SafeAreaView style={styles.container}>
-			<KeyboardAvoidingView>
+			<ScrollView keyboardShouldPersistTaps="handled">
 	        	<Spacer>
 		        	<TextInput
 		        		multiline	
@@ -55,7 +56,7 @@ const CommentFormScreen = ({navigation})=>{
 						}
 					/>	
 	       		</Spacer>
-	       	</KeyboardAvoidingView>
+	       </ScrollView>
 		</SafeAreaView>
 	)
 }
@@ -74,7 +75,8 @@ const styles = StyleSheet.create({
 	commentInput:{
 		color:'white', 
 		borderColor: 'white',
-		borderBottomWidth: 0.75
+		borderBottomWidth: 0.75,
+		fontSize:18
 	},
 })
 

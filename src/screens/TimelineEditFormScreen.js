@@ -41,7 +41,10 @@ const TimelineEditFormScreen = ({navigation})=>{
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<ScrollView keyboardShouldPersistTaps="always">
+				<ScrollView keyboardShouldPersistTaps="handled">
+					<Spacer>
+						<Text style={styles.title}>Edit Post</Text>
+					</Spacer>
 					<Spacer>
 						<Input 
 							labelStyle={styles.labelStyle} 
@@ -121,16 +124,18 @@ const styles= StyleSheet.create({
 		backgroundColor:'#00ad8e',
 		borderRadius:25
 	},
-	text:{
+	title:{
 		color:'white',
-		marginBottom:10
+		margin:10,
+		fontSize:25
 	},
 	inputStyle:{
 		color:'white',
 		fontSize:18
 	},
 	labelStyle:{
-		color:'white'
+		color:'white',
+		fontSize:18
 	},
 	label:{
 		color:'white',

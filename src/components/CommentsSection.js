@@ -16,7 +16,6 @@ const CommentsSection = ({comments, portfolioId})=>{
 	    	data={comments}
 	    	keyExtractor={(item)=>item._id}
 	    	renderItem={({item})=>{
-	    		console.log(item);
 	    		return(
 	    			<View style={styles.commentCard}>
 		    			<ListItem
@@ -26,11 +25,12 @@ const CommentsSection = ({comments, portfolioId})=>{
 		    				leftAvatar={{source:{uri:item.author.profileImage}}}
 		    				bottomDivider
 		    				subtitle={
-		    					<View>
+		    					<View style={{flex:1}}>		
 		    						<Text style={styles.text}>{moment(item.createdAt).fromNow()}</Text>
 		    						<Text style={styles.text}>{item.text}</Text>
 		    					</View>
 		    				}
+		  
 		    				rightIcon={item.author.id===user.userId ? (
 		    					<TouchableOpacity onPress={()=>dispatch(deleteComment(portfolioId,item._id))}> 
 									<FontAwesome5

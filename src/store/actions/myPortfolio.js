@@ -27,7 +27,6 @@ export const createMyPortfolio = (data)=>{
 	return async dispatch =>{
 		try{
 			const response = await apiCall.post('/api/myportfolio/create', data);
-			console.log(response);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
 
@@ -65,9 +64,7 @@ export const editAbout= (data)=>{
 export const addCollection = (data)=>{
 	return async dispatch=>{
 		try{	
-			console.log(data);
 			const response = await apiCall.post('/api/myportfolio/collections', data);
-			console.log(response);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
 		}catch(err){
@@ -148,6 +145,42 @@ export const deleteTimelinePost = (id)=>{
 			const response = await apiCall.delete(`/api/myportfolio/timeline/${id}`);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const addVideo = (video)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.post('/api/myportfolio/videos', video);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+export const editVideo = (video, id)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.put(`/api/myportfolio/videos/${id}`, video);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+export const deleteVideo = (id)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.delete(`/api/myportfolio/videos/${id}`);
+			dispatch(setUserPortfolio(response.data));
 		}catch(err){
 			dispatch(addErrorMessage(err.response.data.error));
 		}

@@ -15,7 +15,7 @@ const BioSection = ({portfolio})=>{
 							name="location-pin" 
 							size={25} 
 							color="#00ad8e"
-						/>  {location}
+						/> {location}
 					</Text>
 				)}
 				{type && (
@@ -31,7 +31,7 @@ const BioSection = ({portfolio})=>{
 					<Text style={styles.text}>
 						<FontAwesome5 
 							name="birthday-cake" 
-							size={20}
+							size={24}
 							color="#00ad8e"
 							solid
 						/>   {birthday}

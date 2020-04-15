@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity, Animated} from 'react-native';
+import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
 import {Text, Button, Image, Header, Overlay} from 'react-native-elements';
 import { SliderBox } from "react-native-image-slider-box";
 import Spacer from '../components/Spacer';
@@ -10,10 +10,11 @@ import ImageHeader from '../components/ImageHeader';
 import BioSection from '../components/BioSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
+import VideosSection from '../components/VideosSection';
 import CreateForm from '../components/CreateForm';
 import Loading from '../components/Loading';
 import {signout} from '../store/actions/currentUser';
-import {fetchMyPortfolio, deleteCollection} from '../store/actions/myPortfolio';
+import {fetchMyPortfolio, deleteCollection, deleteVideo} from '../store/actions/myPortfolio';
 import {MaterialCommunityIcons, SimpleLineIcons, FontAwesome5} from '@expo/vector-icons';
 
 
@@ -25,9 +26,9 @@ const MyPortfolioScreen = ({navigation})=>{
 	const portfolio = useSelector((state)=>state.currentUser.portfolio)
 	const [loading, setLoading] = useState(true)
 	const [isVisible, setIsVisible] = useState(false);
-	const [selectedCollection, setSelectedCollection] =useState(null);
-	const scrollX = new Animated.Value(0)
-	let position = Animated.divide(scrollX, width);
+	const [videoOverlay, setVideoOverlay] = useState(false);
+	const [selectedCollection, setSelectedCollection] = useState(null);
+	const [selectedVideo, setSelectedVideo]= useState(null);
 	useEffect(()=>{
 		fetch();
 	},[]);
@@ -65,7 +66,7 @@ const MyPortfolioScreen = ({navigation})=>{
 							
 							<ProfileSection 
 								portfolio={portfolio}
-								btnTitle="Share"
+								btnType="Share"
 								navigation={navigation}
 								id={portfolio._id}
 							/>
@@ -100,6 +101,7 @@ const MyPortfolioScreen = ({navigation})=>{
 						return(
 						
 							<View>
+								<Spacer/>
 								<SliderBox
 									images={images}
 									sliderBoxHeight={450}
@@ -107,18 +109,19 @@ const MyPortfolioScreen = ({navigation})=>{
 								/>
 								<Spacer>
 									<View style={styles.collectionInfoContainer}>
-										<View>
+										<View style={{flex:1}}>
 											<Text style={styles.name}>{item.title}</Text>
-											<Text style={styles.text}>{item.description}</Text>
 										</View>
 									
 										<TouchableOpacity onPress={()=>{
 											setIsVisible(true);
 											setSelectedCollection(item);
 										}}>
-											<SimpleLineIcons name="options-vertical" size={30} color='white'/>
+											<SimpleLineIcons name="options-vertical" size={25} color='white'/>
 										</TouchableOpacity>
-									
+									</View>
+									<View style={{flex:1, flexDirection:'row'}}>										
+										<Text style={styles.text}>{item.description}</Text>
 									</View>
 								</Spacer>
 								<Spacer/>
@@ -168,13 +171,55 @@ const MyPortfolioScreen = ({navigation})=>{
 									}
 								 	onPress={()=>{
 								 		setIsVisible(false);
-								 		setLoading(true);
 								 		dispatch(deleteCollection(selectedCollection._id))
-								 		setLoading(false);
 								 	}}
 								 />
 								</View>
 							</Overlay>
+							<Overlay
+							  isVisible={videoOverlay}
+							  borderRadius={25}
+							  height={0.5*width}
+							  height={0.16 * height}
+							  onBackdropPress={() => setVideoOverlay(false)}
+							  overlayBackgroundColor='#303330'
+							>
+								<View>
+								 <Button 
+								 	title="Edit Video" 
+								 	buttonStyle={styles.button}
+								 	onPress={()=>{
+								 		setVideoOverlay(false);
+								 		navigation.navigate('VideosEdit', {video: selectedVideo});
+
+								 	}}
+								 />
+								 <Button 
+								 	title="Delete Video" 
+								 	buttonStyle={styles.deleteBtn}
+								 	onPress={()=>{
+								 		setVideoOverlay(false);
+								 		dispatch(deleteVideo(selectedVideo._id))
+								 	}}
+								 	icon={
+										<FontAwesome5
+									      name="trash"
+									      solid
+									      size={25}
+									      color="white"
+									      style={{marginHorizontal:10}}
+									    />
+									}
+								 />
+								</View>
+							</Overlay>
+							{portfolio.videos.length>0 && (
+								<VideosSection 
+									videos={portfolio.videos} 
+									showOverlay={setVideoOverlay} 
+									selectVideo={setSelectedVideo}
+								/>
+							)}		
 							<MyDivider/>
 							<Spacer>
 								<View style={styles.titleContainer}>								
@@ -224,7 +269,7 @@ const styles = StyleSheet.create({
 		marginVertical:10
 	},
   	name:{
-		fontSize:24,
+		fontSize:20,
 		fontWeight:'bold',
 		marginBottom:5,
 		color:'white'

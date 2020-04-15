@@ -34,7 +34,7 @@ const TimelineFormScreen = ({navigation})=>{
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<ScrollView keyboardShouldPersistTaps="always">
+				<ScrollView keyboardShouldPersistTaps="handled">
 					<Spacer>
 						<Text style={styles.title}>Add achievements, events, education and past jobs to your career timeline</Text>
 					</Spacer>
@@ -109,7 +109,8 @@ const styles= StyleSheet.create({
 		fontSize:18
 	},
 	labelStyle:{
-		color:'white'
+		color:'white',
+		fontSize:18
 	},
 	label:{
 		color:'white',

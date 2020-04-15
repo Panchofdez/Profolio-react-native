@@ -126,7 +126,6 @@ const CreateForm =({navigation, portfolio, type, btnType, submitBtnTitle})=>{
 					name
 				}
 			}
-			console.log(formData);
 			dispatch(editProfile(formData));
 		}catch(err){
 

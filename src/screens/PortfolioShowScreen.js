@@ -13,7 +13,7 @@ import TimelineSection from '../components/TimelineSection';
 import {getPortfolio, clearPortfolio} from '../store/actions/portfolios';
 import Loading from '../components/Loading';
 import{MaterialCommunityIcons} from '@expo/vector-icons';
-
+import VideosSection from '../components/VideosSection';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -43,7 +43,7 @@ const PortfolioShowScreen = ({navigation})=>{
 								portfolio={portfolio}
 								navigation={navigation}		
 								id={itemId}
-								btnTitle='Recommend'		
+								btnType='Recommend'		
 							/>
 							<MyDivider/>
 							<Spacer>
@@ -65,6 +65,7 @@ const PortfolioShowScreen = ({navigation})=>{
 						return(
 						
 							<View>
+								<Spacer/>
 								<SliderBox
 									images={images}
 									sliderBoxHeight={450}
@@ -81,8 +82,10 @@ const PortfolioShowScreen = ({navigation})=>{
 					}}
 					ListFooterComponent={
 						<View>
+							{portfolio.videos.length>0 && (
+								<VideosSection videos={portfolio.videos}/>
+							)}						
 							<MyDivider/>
-
 							<Spacer>
 								<Text h4 style={styles.text}>Timeline</Text>
 							</Spacer>
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
 		marginVertical:10
 	},
   	name:{
-		fontSize:24,
+		fontSize:20,
 		fontWeight:'bold',
 		marginBottom:5,
 		color:'white'
