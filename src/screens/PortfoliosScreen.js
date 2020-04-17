@@ -33,7 +33,7 @@ const PortfoliosScreen = ({navigation})=>{
 						value={searchTerm}
 						onChangeText={setSearchTerm}
 						autoCapitalize="none"
-						placeholder="Search"
+						placeholder="Find a Portfolio"
 						autoCorrect={false}
 						containerStyle={styles.search}
 						inputContainerStyle={{backgroundColor:'#fff'}}

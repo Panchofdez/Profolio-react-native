@@ -24,10 +24,8 @@ const PortfolioShowScreen = ({navigation})=>{
 	const [portfolioId, setPortfolioId] = useState(itemId);
 	const dispatch =useDispatch();
 	useEffect(()=>{
-		console.log('hi');
 		dispatch(getPortfolio(itemId));
 		return ()=>{
-			console.log('cleared');
 			dispatch(clearPortfolio());
 		}
 	},[itemId]);

@@ -104,7 +104,6 @@ export const readAllNotifications =()=>{
 	return async dispatch =>{
 		try{
 			const response = await apiCall.put('/api/notifications/readall');
-			console.log(response.data);
 			dispatch(fetchNotifications(response.data));
 		}catch(err){
 			dispatch(addErrorMessage(err.response.data.error))

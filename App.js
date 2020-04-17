@@ -23,6 +23,7 @@ import VideosCreateScreen from './src/screens/VideosCreateScreen';
 import VideosEditScreen from './src/screens/VideosEditScreen';
 import CommentFormScreen from './src/screens/CommentFormScreen';
 import CommentShowScreen from './src/screens/CommentShowScreen';
+import NotificationIcon from  './src/components/NotificationIcon';
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
 import {Entypo, FontAwesome5} from '@expo/vector-icons';
@@ -64,7 +65,7 @@ const switchNavigator = createSwitchNavigator({
       PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:headerStyle}
       },{
         navigationOptions:{
-          tabBarIcon: ({tintColor})=><FontAwesome5 solid name="bell" size={30} color={tintColor}/>
+          tabBarIcon: ({tintColor})=><NotificationIcon color={tintColor}/>
         }
       }
     ),

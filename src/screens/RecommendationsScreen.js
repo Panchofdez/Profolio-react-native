@@ -16,7 +16,6 @@ const RecommendationsScreen = ({navigation})=>{
 	const portfolio = useSelector((state)=>state.showPortfolio.portfolio);
 	const dispatch =useDispatch();
 	useEffect(()=>{
-		console.log('Heyyy');
 		dispatch(getRecommendations(itemId));
 	},[itemId])
 	const buttons = ['Recommendations', 'Recommending'];
