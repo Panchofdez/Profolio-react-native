@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import {Input, Text, Button, Image} from 'react-native-elements';
 import {NavigationEvents} from 'react-navigation';
 import Spacer from '../components/Spacer';
@@ -8,6 +8,7 @@ import {FontAwesome5} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import cloudinaryUpload from '../api/cloudinary';
 import {createMyPortfolio, editProfile} from '../store/actions/myPortfolio';
+import {signout} from '../store/actions/currentUser';
 import Loading from '../components/Loading';
 
 
@@ -136,7 +137,15 @@ const CreateForm =({navigation, portfolio, type, btnType, submitBtnTitle})=>{
 	}else{
 		return (
 			<SafeAreaView style={styles.container}>
-				<ScrollView keyboardShouldPersistTaps="always">
+				<ScrollView keyboardShouldPersistTaps="handled">
+					{type==='Create' && (
+						<View style={styles.header}>
+							<TouchableOpacity onPress={()=>dispatch(signout())}>
+								<Text style={styles.signout}>Sign Out</Text>
+							</TouchableOpacity>
+						</View>
+
+					)}
 					<NavigationEvents onWillBlur={()=>{
 						setCoverPhoto(null);
 						setProfileImage(null);
@@ -265,6 +274,18 @@ const styles= StyleSheet.create({
 	coverPhoto:{
 		width:0.80*width,
 		height:0.20*height
+	},
+	header:{
+		display:'flex', 
+		flexDirection: 'row', 
+		justifyContent:'space-between', 
+		alignItems:'center', 
+		height:0.07*height
+	},
+	signout:{
+		fontSize:18, 
+		color:'#00ad8e', 
+		marginHorizontal:0.05*width
 	}
 });
 

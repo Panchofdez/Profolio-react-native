@@ -1,23 +1,32 @@
 import React, {useEffect, useState} from 'react';
+import {NavigationEvents} from 'react-navigation';
 import {useSelector, useDispatch} from 'react-redux';
 import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem, Text, ButtonGroup} from 'react-native-elements';
-import {getRecommendations} from '../store/actions/portfolios';
+import {getRecommendations, getPortfolio} from '../store/actions/portfolios';
 import Spacer from '../components/Spacer';
 
 
 const RecommendationsScreen = ({navigation})=>{
-	const [selectedIndex, setSelectedIndex] = useState(0);
 	const {itemId} = navigation.state.params;
+	const [portfolioId, setPortfolioId] = useState(itemId);
+	const [selectedIndex, setSelectedIndex] = useState(0);
 	const recommendations = useSelector((state)=>state.showPortfolio.recommendations);
 	const recommending = useSelector((state)=>state.showPortfolio.recommending);
+	const portfolio = useSelector((state)=>state.showPortfolio.portfolio);
 	const dispatch =useDispatch();
 	useEffect(()=>{
+		console.log('Heyyy');
 		dispatch(getRecommendations(itemId));
 	},[itemId])
 	const buttons = ['Recommendations', 'Recommending'];
 	return (
 		<SafeAreaView style={styles.container}>
+			<NavigationEvents onDidFocus={()=>{	
+				if(!portfolio || portfolio._id !== itemId){
+					dispatch(getRecommendations(itemId));
+				}		
+			}}/>
 			<Spacer>
 				<ButtonGroup
 					buttons={buttons}
@@ -32,7 +41,7 @@ const RecommendationsScreen = ({navigation})=>{
 					data={recommendations}
 					keyExtractor={(item)=>item._id}
 					renderItem={({item})=>(
-						<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:item.portfolio})}>
+						<TouchableOpacity onPress={()=>navigation.push('PortfolioShow', {itemId:item.portfolio})}>
 							<ListItem
 								containerStyle={styles.item}
 								leftAvatar={{source:{uri:item.profileImage}}}
@@ -52,7 +61,7 @@ const RecommendationsScreen = ({navigation})=>{
 					data={recommending}
 					keyExtractor={(item)=>item._id}
 					renderItem={({item})=>(
-						<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:item.portfolio})}>
+						<TouchableOpacity onPress={()=>navigation.push('PortfolioShow', {itemId:item.portfolio})}>
 							<ListItem
 								containerStyle={styles.item}
 								leftAvatar={{source:{uri:item.profileImage}}}

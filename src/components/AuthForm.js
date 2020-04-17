@@ -50,7 +50,9 @@ const AuthForm = ({headerText, btnText, type})=>{
 				/>
 			</Spacer>
 			{error ? (
-		        <Text style={styles.errorMessage}>{error}</Text>
+				<Spacer>
+		        	<Text style={styles.errorMessage}>{error}</Text>
+		        </Spacer>
 		    	) : null}
 		    
 			<Spacer>
@@ -64,7 +66,8 @@ const AuthForm = ({headerText, btnText, type})=>{
 
 const styles= StyleSheet.create({
 	button:{
-		backgroundColor:'#00ad8e'
+		backgroundColor:'#00ad8e',
+		borderRadius:25
 	},
 	errorMessage:{
 	    fontSize: 16,

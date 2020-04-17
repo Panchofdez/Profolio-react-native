@@ -6,6 +6,7 @@ import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 import {clearErrorMessage} from '../store/actions/errors';
 import backgroundImg from '../../assets/backgroundimg.jpg';
+import Spacer from '../components/Spacer';
 
 const SignupScreen = ({navigation})=>{
 	const dispatch = useDispatch();
@@ -18,12 +19,14 @@ const SignupScreen = ({navigation})=>{
 					btnText="Sign Up"
 					type="signup"
 					
-				/>			
-				<NavLink 
-					text="Already have an account? Sign in instead" 
-					route="Signin"
-					navigation={navigation}
-				/>
+				/>	
+				<Spacer>		
+					<NavLink 
+						text="Already have an account? Sign in instead" 
+						route="Signin"
+						navigation={navigation}
+					/>
+				</Spacer>
 			</ImageBackground>
 		
 		</SafeAreaView>

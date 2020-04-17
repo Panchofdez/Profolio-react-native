@@ -79,9 +79,12 @@ const MyPortfolioScreen = ({navigation})=>{
 									</TouchableOpacity>			
 								</View>
 							</Spacer>
-							<BioSection 
-								portfolio={portfolio}
-							/>
+							{(portfolio.about || portfolio.location || portfolio.type || portfolio.birthday) &&(
+								<BioSection 
+									portfolio={portfolio}
+								/>
+							)}
+							
 							<MyDivider/>
 							<Spacer>
 								<View style={styles.titleContainer}>									
@@ -229,13 +232,16 @@ const MyPortfolioScreen = ({navigation})=>{
 									</TouchableOpacity>						
 								</View>
 							</Spacer>
-							<TimelineSection timeline={portfolio.timeline} type="myPortfolio" navigation={navigation}/>
+							{portfolio.timeline.length>0 && (
+								<TimelineSection timeline={portfolio.timeline} type="myPortfolio" navigation={navigation}/>
+							)}
+							
 					        <Spacer/>
 					        <MyDivider/>
 					        <Spacer>
 					        	<Text h4 style={styles.text}>Comments</Text>
 					        </Spacer>
-					        <CommentsSection comments={portfolio.comments}/>
+					        <CommentsSection comments={portfolio.comments} navigation={navigation}/>
 					    </View>
 					}
 				/>

@@ -4,67 +4,75 @@ import {View, StyleSheet, FlatList, TouchableOpacity, Dimensions} from 'react-na
 import {Button, Card, Text, SearchBar, Header} from 'react-native-elements';
 import {fetchPortfolios} from '../store/actions/portfolios';
 import Spacer from '../components/Spacer';
+import Loading from '../components/Loading';
 import {FontAwesome} from '@expo/vector-icons';
+import { createFilter} from 'react-native-search-filter';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+const KEYS_TO_FILTER = ['name', 'location', 'type'];
+
 const PortfoliosScreen = ({navigation})=>{
-	const [search, setSearch]= useState('');
-	const portfolios = useSelector((state)=>state.portfolios)
+	const portfolios = useSelector((state)=>state.portfolios);
+	const [searchTerm, setSearchTerm] = useState('');
 	const dispatch = useDispatch();
 	useEffect(()=>{
 		dispatch(fetchPortfolios());
 	}, [])
-	
-	return(
-		<View style={styles.container}>
-			<Header
-				containerStyle={{backgroundColor:'#161716', height:0.06*height}}
-				centerComponent={{ text: 'Portfolio', style: { color: '#00ad8e', fontSize:20, fontWeight:'bold', marginBottom:25} }}
-			/>
-			<Spacer>
-				<SearchBar
-					value={search}
-					onChangeText={setSearch}
-					autoCapitalize="none"
-					placeholder="Search"
-					autoCorrect={false}
-					containerStyle={styles.search}
-					inputContainerStyle={{backgroundColor:'#fff'}}
-					round
-					lightTheme
+	if(portfolios){
+		const filteredPortfolios= portfolios.filter(createFilter(searchTerm,KEYS_TO_FILTER))
+		return(
+			<View style={styles.container}>
+				<Header
+					containerStyle={{backgroundColor:'#161716', height:0.07*height}}
+					centerComponent={{ text: 'Portfolio', style: { color: '#00ad8e', fontSize:20, fontWeight:'bold', marginBottom:25} }}
 				/>
-			</Spacer>
+				<Spacer>
+					<SearchBar
+						value={searchTerm}
+						onChangeText={setSearchTerm}
+						autoCapitalize="none"
+						placeholder="Search"
+						autoCorrect={false}
+						containerStyle={styles.search}
+						inputContainerStyle={{backgroundColor:'#fff'}}
+						round
+						lightTheme
+					/>
+				</Spacer>
 
-			<FlatList
-				data={portfolios}
-				keyExtractor={(p)=>p._id}
-				numColumns={2}
-				columnWrapperStyle={styles.column}
-				renderItem={({item})=>{
-					return(
-						<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:item._id})}>
-							<Card
-								containerStyle={styles.card}
-								imageStyle={styles.image}
-								image={{uri:item.profileImage}}
-							>
-								<Text style={styles.name}>
-									{item.name}
-								</Text>
-								<Text style={styles.type}>
-									{item.type}
-								</Text>
+				<FlatList
+					data={filteredPortfolios}
+					keyExtractor={(p)=>p._id}
+					numColumns={2}
+					columnWrapperStyle={styles.column}
+					renderItem={({item})=>{
+						return(
+							<TouchableOpacity onPress={()=>navigation.push('PortfolioShow', {itemId:item._id})}>
+								<Card
+									containerStyle={styles.card}
+									imageStyle={styles.image}
+									image={{uri:item.profileImage}}
+								>
+									<Text style={styles.name}>
+										{item.name}
+									</Text>
+									<Text style={styles.type}>
+										{item.type}
+									</Text>
 
-							</Card>
-						</TouchableOpacity>
-					)
-				}}
-			/>
+								</Card>
+							</TouchableOpacity>
+						)
+					}}
+				/>
 
-		</View>
-	)
+			</View>
+		)
+	}else{
+		return <Loading/>;
+	}
 }
 
 

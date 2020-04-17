@@ -36,7 +36,7 @@ const ProfileSection = ({portfolio, navigation, btnType, id})=>{
 
 				<View style={styles.userInfo}>
 					<Text style={styles.name}>{name}</Text>
-					<TouchableOpacity onPress={()=>navigation.navigate('Recommendations',{itemId:id})}>
+					<TouchableOpacity onPress={()=>navigation.push('Recommendations',{itemId:id})}>
 						<Text style={styles.text}>{recommendations.length} Recommendations</Text>
 					</TouchableOpacity>
 					{btnType==='Recommend' && (
@@ -46,6 +46,9 @@ const ProfileSection = ({portfolio, navigation, btnType, id})=>{
 							buttonStyle={recommending? styles.recommending : styles.recommend} 
 							titleStyle={recommending? styles.recommendingTitle : styles.recommendTitle}
 							onPress={()=>{
+								if(user.userId === portfolio.userId){
+									return;
+								}
 								if(recommending){
 									dispatch(stopRecommending(id));
 									setRecommending(false);

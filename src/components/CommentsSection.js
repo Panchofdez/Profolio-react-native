@@ -7,7 +7,7 @@ import {deleteComment} from '../store/actions/portfolios';
 import moment from "moment";
 
 
-const CommentsSection = ({comments, portfolioId})=>{
+const CommentsSection = ({comments, portfolioId, navigation})=>{
 	const dispatch = useDispatch();
 	const user = useSelector((state)=>state.currentUser.user)
 	return(
@@ -17,7 +17,7 @@ const CommentsSection = ({comments, portfolioId})=>{
 	    	keyExtractor={(item)=>item._id}
 	    	renderItem={({item})=>{
 	    		return(
-	    			<View style={styles.commentCard}>
+	    			<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:item.author.portfolio})}>
 		    			<ListItem
 		    				containerStyle={styles.commentContainer} 
 		    				title={item.author.name}
@@ -43,7 +43,7 @@ const CommentsSection = ({comments, portfolioId})=>{
 								</TouchableOpacity>
 		    				): null}
 		    			/>
-		    		</View>
+		    		</TouchableOpacity>
 		    	)
 
 	    	}}

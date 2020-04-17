@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {NavigationEvents} from 'react-navigation'
 import {View, SafeAreaView, StyleSheet, Dimensions, FlatList,ActivityIndicator, TextInput, TouchableOpacity} from 'react-native';
 import {Text, Image, Button} from 'react-native-elements';
 import { SliderBox } from "react-native-image-slider-box";
@@ -20,18 +21,27 @@ const height = Dimensions.get('window').height;
 
 const PortfolioShowScreen = ({navigation})=>{
 	const {itemId} = navigation.state.params;
+	const [portfolioId, setPortfolioId] = useState(itemId);
 	const dispatch =useDispatch();
-	const portfolio = useSelector((state)=>state.showPortfolio.portfolio);
 	useEffect(()=>{
+		console.log('hi');
 		dispatch(getPortfolio(itemId));
 		return ()=>{
+			console.log('cleared');
 			dispatch(clearPortfolio());
 		}
 	},[itemId]);
-	
+	const portfolio = useSelector((state)=>state.showPortfolio.portfolio);
+
 	if(portfolio){
 		return(
 			<SafeAreaView style={styles.container} forceInset={{ top: 'always' }}>
+				<NavigationEvents onDidFocus={()=>{
+					if(portfolio._id !== itemId){
+						dispatch(getPortfolio(itemId));
+					}
+				
+				}}/>
 				<FlatList
 					ListHeaderComponent={
 						<View>
@@ -47,11 +57,14 @@ const PortfolioShowScreen = ({navigation})=>{
 							/>
 							<MyDivider/>
 							<Spacer>
-									<Text style={styles.text} h4>About</Text>
-								</Spacer>
-							<BioSection
-								portfolio={portfolio}
-							/>
+								<Text style={styles.text} h4>About</Text>
+							</Spacer>
+							{(portfolio.about || portfolio.type || portfolio.location || portfolio.birthday) && (
+								<BioSection
+									portfolio={portfolio}
+								/>
+							)}
+							
 							<MyDivider/>
 							<Spacer>
 								<Text style={styles.text} h4>Work</Text>
@@ -101,7 +114,7 @@ const PortfolioShowScreen = ({navigation})=>{
 								</TouchableOpacity>						
 							</View>
 					        </Spacer>
-					        <CommentsSection comments={portfolio.comments} portfolioId={portfolio._id}/>
+					        <CommentsSection comments={portfolio.comments} portfolioId={portfolio._id} navigation={navigation}/>
 					    </View>
 					}
 				/>
@@ -109,7 +122,15 @@ const PortfolioShowScreen = ({navigation})=>{
 		)
 	}else{
 		return(
-			<Loading/>
+			<React.Fragment>
+				<NavigationEvents onDidFocus={()=>{
+					if(!portfolio || portfolio._id !== itemId){
+						dispatch(getPortfolio(itemId));
+					}
+				}}/>
+				<Loading/>
+			</React.Fragment>
+
 		)
 	}
 }

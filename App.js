@@ -21,7 +21,8 @@ import CollectionPhotosDeleteScreen from './src/screens/CollectionPhotosDeleteSc
 import CollectionEditScreen from './src/screens/CollectionEditScreen';
 import VideosCreateScreen from './src/screens/VideosCreateScreen';
 import VideosEditScreen from './src/screens/VideosEditScreen';
-import CommentFormScreen from './src/screens/CommentFormScreen'
+import CommentFormScreen from './src/screens/CommentFormScreen';
+import CommentShowScreen from './src/screens/CommentShowScreen';
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
 import {Entypo, FontAwesome5} from '@expo/vector-icons';
@@ -57,12 +58,16 @@ const switchNavigator = createSwitchNavigator({
         }
 
     ),
-    Notifications:{
-      screen:NotificationsScreen, 
-      navigationOptions:{
-        tabBarIcon: ({tintColor})=><FontAwesome5 solid name="bell" size={30} color={tintColor}/>
+    notificationsFlow:createStackNavigator({
+      Notifications:{screen:NotificationsScreen,navigationOptions:{headerShown:false}},
+      CommentShow:{screen:CommentShowScreen, navigationOptions:headerStyle},
+      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:headerStyle}
+      },{
+        navigationOptions:{
+          tabBarIcon: ({tintColor})=><FontAwesome5 solid name="bell" size={30} color={tintColor}/>
+        }
       }
-    },
+    ),
     myPortfolioFlow:createStackNavigator({
       MyPortfolio:{
         screen:MyPortfolioScreen,
