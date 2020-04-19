@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {SafeAreaView,ScrollView, StyleSheet,TextInput, TouchableOpacity} from 'react-native';
+import {SafeAreaView,ScrollView, StyleSheet,TextInput, TouchableOpacity, Alert} from 'react-native';
 import { Button} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import {postComment} from '../store/actions/portfolios';
@@ -15,11 +15,11 @@ const CommentFormScreen = ({navigation})=>{
 	const portfolio=useSelector((state)=>state.showPortfolio.portfolio);
 	const handleSubmit = ()=>{
 		if(user.userId===portfolio.userId){
-			alert("You can't comment on your own portfolio");
+			Alert.alert("Error","You can't comment on your own portfolio");
 			return
 		}
 		if(!user.portfolio){
-			alert('You have to create your own portfolio first');
+			Alert.alert('Error','You have to create your own portfolio first');
 			return;
 		}
 		const data={

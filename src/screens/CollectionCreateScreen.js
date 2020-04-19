@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View, StyleSheet,ScrollView, Dimensions, TextInput} from 'react-native';
+import {SafeAreaView, View, StyleSheet,ScrollView, Dimensions, TextInput, Alert} from 'react-native';
 import {Text, Button, Image, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
@@ -24,7 +24,7 @@ const CollectionCreateScreen = ()=>{
 			if(permission.granted ===false){
 				let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 				if (permissionResult.granted === false) {
-					alert("Permission to access camera roll is required!");
+					Alert.alert("Error","Permission to access camera roll is required!");
 					return;
 				}
 			}	
@@ -43,7 +43,7 @@ const CollectionCreateScreen = ()=>{
 	};
 	const handleSubmit=async()=>{
 		if(!image){
-			alert('You need to add a photo to your collection');
+			Alert.alert('Error','You need to add a photo to your collection');
 			return;
 		}
 		setLoading(true);

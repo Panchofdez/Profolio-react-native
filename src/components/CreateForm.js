@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import {Input, Text, Button, Image} from 'react-native-elements';
 import {NavigationEvents} from 'react-navigation';
 import Spacer from '../components/Spacer';
@@ -30,7 +30,7 @@ const CreateForm =({navigation, portfolio, type, btnType, submitBtnTitle})=>{
 			if(permission.granted ===false){
 				let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 				if (permissionResult.granted === false) {
-					alert("Permission to access camera roll is required!");
+					Alert.alert("Error", "Permission to access camera roll is required!");
 					return;
 				}
 			}	
@@ -56,7 +56,7 @@ const CreateForm =({navigation, portfolio, type, btnType, submitBtnTitle})=>{
 	};
 	const handleSubmit = async()=>{
 		if (name==="" || !profileImage){
-			alert('You must provide a name and profile picture!');
+			Alert.alert('Error', 'You must provide a name and profile picture!');
 			return;
 		}
 		if(type==="Create"){

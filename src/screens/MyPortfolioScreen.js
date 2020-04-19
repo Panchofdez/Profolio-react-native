@@ -11,6 +11,8 @@ import BioSection from '../components/BioSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
 import VideosSection from '../components/VideosSection';
+import SkillsSection from '../components/SkillsSection';
+import ContactSection from'../components/ContactSection';
 import CreateForm from '../components/CreateForm';
 import Loading from '../components/Loading';
 import {signout} from '../store/actions/currentUser';
@@ -83,6 +85,22 @@ const MyPortfolioScreen = ({navigation})=>{
 								<BioSection 
 									portfolio={portfolio}
 								/>
+							)}
+							
+							<MyDivider/>
+							<Spacer>
+								<View style={styles.titleContainer}>									
+									<Text style={styles.text} h4>Skills/Services</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('SkillsForm', {skills:portfolio.skills})}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>
+									</TouchableOpacity>
+								</View>
+							</Spacer>
+							{portfolio.skills.length>0 &&(
+								<View>
+									<SkillsSection skills={portfolio.skills}/>
+									<Spacer/>
+								</View>
 							)}
 							
 							<MyDivider/>
@@ -237,6 +255,16 @@ const MyPortfolioScreen = ({navigation})=>{
 							)}
 							
 					        <Spacer/>
+					        <MyDivider/>
+					        <Spacer>
+								<View style={styles.titleContainer}>								
+									<Text h4 style={styles.text}>Contact</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('ContactForm', {portfolio:portfolio})}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
+									</TouchableOpacity>						
+								</View>
+							</Spacer>
+							<ContactSection portfolio={portfolio}/>
 					        <MyDivider/>
 					        <Spacer>
 					        	<Text h4 style={styles.text}>Comments</Text>

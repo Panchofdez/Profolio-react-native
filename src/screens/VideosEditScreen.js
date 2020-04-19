@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, ScrollView, StyleSheet,TextInput} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet,TextInput, Alert} from 'react-native';
 import {Text, Button, Input} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import {FontAwesome5} from '@expo/vector-icons';
@@ -16,13 +16,12 @@ const VideosEditScreen =({navigation})=>{
 	const dispatch=useDispatch();
 	const handleSubmit=()=>{
 		if(link === ""){
-			alert("Youtube link is required");
+			Alert.alert("Error","Youtube link is required");
 			return;
 		}
 		const videoId = link.split('/').slice(-1)[0];
-		console.log(videoId);
 		if(videoId.length!==11){
-			alert("Invalid Youtube Link");
+			Alert.alert("Error","Invalid Youtube Link");
 			return;
 		}
 		const data ={

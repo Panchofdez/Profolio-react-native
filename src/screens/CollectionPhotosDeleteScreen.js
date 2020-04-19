@@ -16,7 +16,7 @@ const CollectionPhotosDeleteScreen= ({navigation})=>{
 	const dispatch = useDispatch();	
 	const deletePhoto=(id)=>{
 		if(collection.photos.length===1){
-			alert('Your collection must have at least one photo');
+			Alert.alert('Error','Your collection must have at least one photo');
 			return;
 		}
 		setLoading(true);

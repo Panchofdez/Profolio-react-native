@@ -186,3 +186,30 @@ export const deleteVideo = (id)=>{
 		}
 	}
 }
+
+
+export const addSkills = (data)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.post('/api/myportfolio/skills', data);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}
+
+
+export const addContactInfo = (data)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.put('/api/myportfolio/contactInfo', data);
+			console.log(response.data);
+			dispatch(setUserPortfolio(response.data));
+			navigate('MyPortfolio');
+		}catch(err){
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+	}
+}

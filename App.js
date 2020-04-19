@@ -21,8 +21,10 @@ import CollectionPhotosDeleteScreen from './src/screens/CollectionPhotosDeleteSc
 import CollectionEditScreen from './src/screens/CollectionEditScreen';
 import VideosCreateScreen from './src/screens/VideosCreateScreen';
 import VideosEditScreen from './src/screens/VideosEditScreen';
+import SkillsFormScreen from './src/screens/SkillsFormScreen';
 import CommentFormScreen from './src/screens/CommentFormScreen';
 import CommentShowScreen from './src/screens/CommentShowScreen';
+import ContactFormScreen from './src/screens/ContactFormScreen';
 import NotificationIcon from  './src/components/NotificationIcon';
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
@@ -83,7 +85,9 @@ const switchNavigator = createSwitchNavigator({
       CollectionPhotosDelete:{screen:CollectionPhotosDeleteScreen, navigationOptions:headerStyle},
       VideosCreate:{screen:VideosCreateScreen, navigationOptions:headerStyle},
       VideosEdit:{screen:VideosEditScreen, navigationOptions:headerStyle},
-      TimelineForm:{screen:TimelineFormScreen, navigationOptions:headerStyle},
+      SkillsForm:{screen:SkillsFormScreen, navigationOptions:headerStyle},
+      ContactForm:{screen:ContactFormScreen, navigationOptions:headerStyle},
+      TimelineForm:{screen:ContactFormScreen, navigationOptions:headerStyle},
       TimelineEditForm:{screen:TimelineEditFormScreen, navigationOptions:headerStyle},
     },{navigationOptions:{
           tabBarIcon:({tintColor})=><FontAwesome5 solid name="user" size={30} color={tintColor}/>,

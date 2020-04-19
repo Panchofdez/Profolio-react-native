@@ -11,6 +11,7 @@ import ImageHeader from '../components/ImageHeader';
 import BioSection from '../components/BioSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
+import SkillsSection from '../components/SkillsSection';
 import {getPortfolio, clearPortfolio} from '../store/actions/portfolios';
 import Loading from '../components/Loading';
 import{MaterialCommunityIcons} from '@expo/vector-icons';
@@ -63,6 +64,17 @@ const PortfolioShowScreen = ({navigation})=>{
 								/>
 							)}
 							
+							{portfolio.skills.length>0 &&(
+								<View>
+									<MyDivider/>
+									<Spacer>
+										<Text style={styles.text} h4>Skills / Services</Text>
+									</Spacer>
+								
+									<SkillsSection skills={portfolio.skills}/>
+									<Spacer/>
+								</View>
+							)}
 							<MyDivider/>
 							<Spacer>
 								<Text style={styles.text} h4>Work</Text>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View, StyleSheet, Dimensions, TextInput, ScrollView} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
 import {Button, Input, Image, Text} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Divider from '../components/Divider';
@@ -27,7 +27,7 @@ const CollectionEditScreen = ({navigation})=>{
 			if(permission.granted ===false){
 				let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 				if (permissionResult.granted === false) {
-					alert("Permission to access camera roll is required!");
+					Alert.alert("Error","Permission to access camera roll is required!");
 					return;
 				}
 			}	
