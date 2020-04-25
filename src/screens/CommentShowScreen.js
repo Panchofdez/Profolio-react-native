@@ -13,14 +13,12 @@ const CommentShowScreen = ({navigation})=>{
 	const dispatch = useDispatch();
 	useEffect(()=>{
 		if(!portfolio){	
-			console.log('HI')
 			dispatch(fetchMyPortfolio());
 		}
 	})
 	
 	if(portfolio){
 		const comment = portfolio.comments.find((c)=>c._id === notification.comment);
-		console.log(comment);
 		return(
 			<SafeAreaView style={styles.container}>
 				<TouchableOpacity onPress={()=>navigation.navigate('PortfolioShow', {itemId:notification.portfolio})}>

@@ -30,7 +30,7 @@ const TimelineSection=({timeline, type, navigation})=>{
 					circleColor='#00ad8e'
 					lineColor='#00ad8e'
 					timeContainerStyle={{minWidth:80, maxWidth:80, marginTop: -5}}
-					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13}}
+					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13, marginHorizontal:2}}
 					descriptionStyle={{color:'white'}}
 					eventDetailStyle={{marginHorizontal:5}}
 					eventContainerStyle={{paddingBottom:25, marginLeft:16}}
@@ -38,7 +38,8 @@ const TimelineSection=({timeline, type, navigation})=>{
 					innerCircle={type==='myPortfolio'? 'icon' : null}
 					
 		        />
-	        </Spacer>
+		    </Spacer>
+	     
 		)
 	}else{
 		return(
@@ -50,7 +51,7 @@ const TimelineSection=({timeline, type, navigation})=>{
 					circleColor='#00ad8e'
 					lineColor='#00ad8e'
 					timeContainerStyle={{minWidth: 80, maxWidth:80,marginTop: -5}}
-					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13}}
+					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13,marginHorizontal:2}}
 					descriptionStyle={{color:'white'}}
 					eventDetailStyle={{marginLeft:5}}
 					eventContainerStyle={{paddingBottom:25, marginLeft:16}}
@@ -58,6 +59,7 @@ const TimelineSection=({timeline, type, navigation})=>{
 					
 		        />
 		    </Spacer>
+	 
 		)
 	}
 	

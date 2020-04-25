@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, SafeAreaView, Dimensions, FlatList, ActivityIndicator, TouchableOpacity, Share, Alert, Platform} from 'react-native';
 import {Text, Button, Image, Header, Overlay} from 'react-native-elements';
 import { SliderBox } from "react-native-image-slider-box";
 import Spacer from '../components/Spacer';
@@ -42,7 +42,19 @@ const MyPortfolioScreen = ({navigation})=>{
 			console.log(err);
 			return;
 		}
-	}
+	};
+	const onShare = async () => {
+	    try {
+	    	const url = `https://portfolio-app-frontend-pf.herokuapp.com/portfolios/${portfolio._id}`;
+			const result = await Share.share({
+				message:Platform.OS ==='ios'? 'Check out my portfolio : ' : `Check out my portfolio : ${url}`,  
+				url:url
+			});
+	    } catch (error) {
+	      Alert.alert(error.message);
+	    }
+	  };
+
 	if(loading){
 		return (
 			<Loading/>
@@ -70,6 +82,7 @@ const MyPortfolioScreen = ({navigation})=>{
 								portfolio={portfolio}
 								btnType="Share"
 								navigation={navigation}
+								onShare={onShare}
 								id={portfolio._id}
 							/>
 							<MyDivider/>
@@ -292,7 +305,7 @@ const styles = StyleSheet.create({
 		color:'white'
 	},
 	text:{
-		marginBottom:5,
+		marginVertical:5,
 		color:'white'
 	},
 	collectionPhoto:{

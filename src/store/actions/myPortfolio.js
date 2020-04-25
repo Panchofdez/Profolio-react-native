@@ -26,7 +26,7 @@ export const fetchMyPortfolio =()=>{
 export const createMyPortfolio = (data)=>{
 	return async dispatch =>{
 		try{
-			const response = await apiCall.post('/api/myportfolio/create', data);
+			const response = await apiCall.post('/api/myportfolio/profile', data);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
 
@@ -39,7 +39,7 @@ export const createMyPortfolio = (data)=>{
 export const editProfile = (data)=>{
 	return async dispatch=>{
 		try{
-			const response = await apiCall.put('/api/myportfolio/edit/profile', data);
+			const response = await apiCall.put('/api/myportfolio/profile', data);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
 		}catch(err){

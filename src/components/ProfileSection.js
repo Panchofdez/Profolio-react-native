@@ -8,7 +8,7 @@ import {recommend, stopRecommending} from '../store/actions/portfolios';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const ProfileSection = ({portfolio, navigation, btnType, id})=>{
+const ProfileSection = ({portfolio, navigation, btnType, id, onShare})=>{
 	const dispatch =useDispatch();
 	const {profileImage, name, recommendations} = portfolio;
 	const user = useSelector((state)=>state.currentUser.user);
@@ -64,6 +64,7 @@ const ProfileSection = ({portfolio, navigation, btnType, id})=>{
 						<Button 
 							type="outline" 
 							title={btnType} 
+							onPress={()=>onShare()}
 							buttonStyle={styles.recommend} 
 							titleStyle={styles.recommendTitle}
 						/>
