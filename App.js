@@ -87,7 +87,7 @@ const switchNavigator = createSwitchNavigator({
       VideosEdit:{screen:VideosEditScreen, navigationOptions:headerStyle},
       SkillsForm:{screen:SkillsFormScreen, navigationOptions:headerStyle},
       ContactForm:{screen:ContactFormScreen, navigationOptions:headerStyle},
-      TimelineForm:{screen:ContactFormScreen, navigationOptions:headerStyle},
+      TimelineForm:{screen:TimelineFormScreen, navigationOptions:headerStyle},
       TimelineEditForm:{screen:TimelineEditFormScreen, navigationOptions:headerStyle},
     },{navigationOptions:{
           tabBarIcon:({tintColor})=><FontAwesome5 solid name="user" size={30} color={tintColor}/>,

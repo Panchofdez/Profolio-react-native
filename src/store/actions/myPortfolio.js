@@ -48,10 +48,10 @@ export const editProfile = (data)=>{
 	}
 }
 
-export const editAbout= (data)=>{
+export const editAbout = (data)=>{
 	return async dispatch=>{
 		try{
-			const response = await apiCall.put('/api/myportfolio/edit/about', data);
+			const response = await apiCall.put('/api/myportfolio/about', data);
 			dispatch(setUserPortfolio(response.data));
 			navigate('MyPortfolio');
 		}catch(err){

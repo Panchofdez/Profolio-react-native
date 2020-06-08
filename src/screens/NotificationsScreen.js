@@ -1,9 +1,10 @@
 import React,{useState, useEffect} from'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, StyleSheet, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Dimensions, FlatList, TouchableOpacity, ToastAndroid} from 'react-native';
 import {Button,Text, Header, ListItem, Overlay} from 'react-native-elements'
 import Spacer from '../components/Spacer';
 import {getNotifications, readNotification, readAllNotifications, deleteNotification} from '../store/actions/currentUser';
+import {fetchMyPortfolio} from '../store/actions/myPortfolio' ;
 import Loading from '../components/Loading';
 import moment from 'moment';
 import {FontAwesome5} from '@expo/vector-icons';
@@ -14,17 +15,29 @@ const height = Dimensions.get('window').height;
 
 const NotificationsScreen = ({navigation})=>{
 	const dispatch = useDispatch();
-	const notifications = useSelector((state)=>state.currentUser.notifications);
+	let notifications = useSelector((state)=>state.currentUser.notifications);
+	const portfolio = useSelector((state)=>state.currentUser.portfolio);
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedNotification, setSelectedNotification]=useState(null);
 	useEffect(()=>{
+		console.log('hello');
 		dispatch(getNotifications());
+		if(!portfolio){
+			dispatch(fetchMyPortfolio());
+		}
 	},[])
 	const handlePress = (notification)=>{
-		console.log(notification);
 		if(notification.comment){
-			navigation.navigate('CommentShow',{notification});
-			dispatch(readNotification(notification._id));
+			const comment = portfolio.comments.find((c)=>c._id === notification.comment);
+			if(!comment){
+				ToastAndroid.show('Comment has been deleted', ToastAndroid.SHORT);
+				navigation.navigate('PortfolioShow', {itemId:notification.portfolio});
+				dispatch(readNotification(notification._id));	
+			}else{
+				navigation.navigate('CommentShow',{comment, notification});
+				dispatch(readNotification(notification._id));		
+			}
+			
 		}else{
 			navigation.navigate('PortfolioShow', {itemId:notification.portfolio})
 			dispatch(readNotification(notification._id));
@@ -50,7 +63,7 @@ const NotificationsScreen = ({navigation})=>{
 				/>
 				{notifications.length>0 ? (
 					<FlatList
-						data={notifications.reverse()}
+						data={notifications}
 						keyExtractor={(item)=>item._id}
 						renderItem={({item})=>{
 							return(

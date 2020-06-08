@@ -2,7 +2,7 @@ import axios from 'axios';
 import {AsyncStorage} from 'react-native';
 
 
-url = "http://2e2e2022.ngrok.io"
+url = "https://portfolio-app-pf.herokuapp.com"
 
 const instance = axios.create({
   baseURL: url
