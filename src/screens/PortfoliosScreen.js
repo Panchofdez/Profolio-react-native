@@ -8,7 +8,6 @@ import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';
 import Categories from '../components/Categories';
 import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
-import { createFilter} from 'react-native-search-filter';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
