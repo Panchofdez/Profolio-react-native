@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer:{
 		overflow:'hidden',
-		borderRadius:25   
+		borderRadius:15   
 	},
 	userInfo:{
 		justifyContent:'center',

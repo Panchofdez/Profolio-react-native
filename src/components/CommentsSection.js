@@ -23,11 +23,10 @@ const CommentsSection = ({comments, portfolioId, navigation})=>{
 		    				title={item.author.name}
 		    				titleStyle={styles.name}
 		    				leftAvatar={{source:{uri:item.author.profileImage}}}
-		    				bottomDivider
 		    				subtitle={
 		    					<View style={{flex:1}}>		
-		    						<Text style={styles.text}>{moment(item.createdAt).fromNow()}</Text>
-		    						<Text style={styles.text}>{item.text}</Text>
+		    						<Text style={styles.text}>{moment(item.createdAt).fromNow()}   </Text>
+		    						<Text style={styles.text}>{item.text}    </Text>
 		    					</View>
 		    				}
 		  
@@ -63,8 +62,18 @@ const styles = StyleSheet.create({
 		fontWeight:'bold'
 	},
 	commentContainer:{
-		backgroundColor:'#161716',  
-		alignItems:'flex-start'
+		alignItems:'flex-start',
+		marginBottom:15,
+		marginHorizontal:10,
+		borderRadius:15,
+		backgroundColor:'#181a18',
+		overflow:'hidden',
+		shadowOpacity:0.8,
+		shadowRadius:3,
+		shadowColor:'black',
+		shadowOffset:{width:0, height:1},
+		elevation:10
+
 	}
 })
 export default CommentsSection;

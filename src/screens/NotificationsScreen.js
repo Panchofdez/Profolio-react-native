@@ -20,7 +20,6 @@ const NotificationsScreen = ({navigation})=>{
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedNotification, setSelectedNotification]=useState(null);
 	useEffect(()=>{
-		console.log('hello');
 		dispatch(getNotifications());
 		if(!portfolio){
 			dispatch(fetchMyPortfolio());
@@ -52,7 +51,7 @@ const NotificationsScreen = ({navigation})=>{
 			<View style={styles.container}>
 				<Header
 					placement="left"
-					containerStyle={{backgroundColor:'#161716', height:0.07*height}}
+					containerStyle={{backgroundColor:'#161716', height:0.07*height, borderBottomWidth:0, paddingLeft:0}}
 					centerComponent={{ text: 'Notifications', style: styles.headerTitle }}
 					rightComponent={
 						<TouchableOpacity onPress={()=>dispatch(readAllNotifications())}>
@@ -78,7 +77,6 @@ const NotificationsScreen = ({navigation})=>{
 										titleStyle={styles.name}
 										subtitle={moment(item.createdAt).fromNow()}
 										subtitleStyle={styles.text}
-										bottomDivider
 
 									/>
 								</TouchableOpacity>
@@ -88,9 +86,11 @@ const NotificationsScreen = ({navigation})=>{
 
 					/>
 				):(
+				<View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
 					<Spacer>
-						<Text style={styles.text} >No new notifications ... </Text>
+						<Text style={{fontSize:18, color:'white', fontWeight:'bold'}} >No new notifications ... </Text>
 					</Spacer>
+				</View>
 
 				)}
 
@@ -134,17 +134,17 @@ const styles = StyleSheet.create({
 	container:{
 		flex:1,
 		backgroundColor:'#161716',
-		color:'white'
+		color:'white',
 	},
 	text:{
 		color:'white',
 		marginBottom:10,
-		fontSize:18
+		fontSize:14
 	},
 	name:{
 		color:'white',
 		marginBottom:10,
-		fontWeight:'bold'
+		fontSize:16
 	},
 	readContainer:{
 		backgroundColor:'#161716',  
@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
 	headerSubTitle:{
 		color: '#00ad8e',
 		marginBottom:25,
-		fontSize:16
+		fontSize:16,
+		marginRight:5
 	},
 	deleteBtn:{
 		backgroundColor:'#c74130',

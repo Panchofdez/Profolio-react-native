@@ -19,7 +19,7 @@ const ContactSection =({portfolio})=>{
 		Linking.openURL(`https://www.instagram.com/${username}`);
 	}
 	return (
-		<View>			
+		<View style={{marginBottom:15}}>			
 			{portfolio.email ? (
 				<Spacer>
 					<View style={styles.row}>
@@ -34,7 +34,7 @@ const ContactSection =({portfolio})=>{
 								/>
 							}
 						/>
-						<Text style={styles.text}>{portfolio.email}</Text>
+						<Text style={styles.text}>{portfolio.email}   </Text>
 					</View>
 				</Spacer>
 			): null}
@@ -52,7 +52,7 @@ const ContactSection =({portfolio})=>{
 								/>
 							}
 						/>
-						<Text style={styles.text}>{portfolio.phone}</Text>
+						<Text style={styles.text}>{portfolio.phone}  </Text>
 					</View>
 				</Spacer>
 
@@ -67,7 +67,7 @@ const ContactSection =({portfolio})=>{
 							fontSize={16}
 							onPress={()=>handleFbLink(portfolio.facebook)}
 						/>
-						<Text style={styles.text}>{portfolio.facebook}</Text>
+						<Text style={styles.text}>{portfolio.facebook}  </Text>
 					</View>
 				</Spacer> 
 
@@ -82,7 +82,7 @@ const ContactSection =({portfolio})=>{
 							fontSize={16}
 							onPress={()=>handleInstaLink(portfolio.instagram)}
 						/>
-						<Text style={styles.text}>{portfolio.instagram}</Text>
+						<Text style={styles.text}>{portfolio.instagram}  </Text>
 				</View>
 
 				</Spacer>

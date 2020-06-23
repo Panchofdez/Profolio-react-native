@@ -1,6 +1,6 @@
 import React , {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {SafeAreaView, View,Dimensions, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {SafeAreaView, View,Dimensions, StyleSheet, FlatList, TouchableOpacity, Alert} from 'react-native';
 import {Image} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import Loading from '../components/Loading';

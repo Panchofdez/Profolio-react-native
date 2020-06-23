@@ -20,7 +20,7 @@ const ImageHeader =({image})=>{
 const styles= StyleSheet.create({
 	headerImage:{
 		width:width,
-		height:0.25*height
+		height:0.22*height
 	},
 })
 

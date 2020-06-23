@@ -14,13 +14,13 @@ const VideosSection = ({videos, showOverlay, selectVideo})=>{
 		const link = `https://www.youtube.com/embed/${v.link}?rel=0`;
 		const iframe=`<iframe width="100%" height="100%" src=${link} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>` 
 		return(
-			<View key={v._id}>
+			<View key={v._id} style={styles.videoContainer}>
 				<WebView
 			        originWhitelist={['*']}
 			        
 			        allowsFullscreenVideo={true}
 			        source={{ html: iframe }}
-			        style={{ marginTop: 20, height:height*0.26, width:width, backgroundColor:'transparent'}}
+			        style={{ height:height*0.26, width:width, backgroundColor:'transparent'}}
 			    />
 			    <Spacer>
 			    	<View style={styles.videoInfoContainer}>
@@ -72,6 +72,15 @@ const styles= StyleSheet.create({
 		justifyContent:'space-between',
 		alignItems:'flex-start'
 		
+	},
+	videoContainer:{
+		shadowOpacity:1,
+		shadowRadius:5,
+		shadowColor:'black',
+		shadowOffset:{width:1, height:1},
+		elevation:10,
+		backgroundColor:'#181a18', 
+		marginBottom:30
 	}
 });
 

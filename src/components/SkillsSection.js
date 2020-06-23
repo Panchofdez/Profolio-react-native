@@ -10,6 +10,7 @@ const SkillsSection = ({skills})=>{
 		<FlatList
 			horizontal
 			data={skills}
+			showsHorizontalScrollIndicator={false}
 			keyExtractor={(item, index)=>index.toString()}
 			renderItem={({item})=>(
 				<Button 

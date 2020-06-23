@@ -9,6 +9,7 @@ import CommentsSection from '../components/CommentsSection';
 import ProfileSection from '../components/ProfileSection';
 import ImageHeader from '../components/ImageHeader';
 import BioSection from '../components/BioSection';
+import ContactSection from'../components/ContactSection';
 import MyDivider from '../components/Divider';
 import TimelineSection from '../components/TimelineSection';
 import SkillsSection from '../components/SkillsSection';
@@ -63,18 +64,19 @@ const PortfolioShowScreen = ({navigation})=>{
 									portfolio={portfolio}
 								/>
 							)}
-							
+							<MyDivider/>
+							<Spacer>
+								<View style={styles.titleContainer}>									
+									<Text style={styles.text} h4>Skills/Services</Text>
+								</View>
+							</Spacer>
 							{portfolio.skills.length>0 &&(
 								<View>
-									<MyDivider/>
-									<Spacer>
-										<Text style={styles.text} h4>Skills / Services</Text>
-									</Spacer>
-								
 									<SkillsSection skills={portfolio.skills}/>
 									<Spacer/>
 								</View>
 							)}
+							
 							<MyDivider/>
 							<Spacer>
 								<Text style={styles.text} h4>Work</Text>
@@ -83,15 +85,15 @@ const PortfolioShowScreen = ({navigation})=>{
 					}
 					data={portfolio.collections}
 					keyExtractor={(item)=>item._id}
+					showsVerticalScrollIndicator={false}
 					renderItem={({item})=>{
 						const images = item.photos.map((photo)=>photo.image);
 						return(
 						
-							<View>
-								<Spacer/>
+							<View style={styles.collectionContainer}>
 								<SliderBox
 									images={images}
-									sliderBoxHeight={450}
+									sliderBoxHeight={400}
 									dotColor="#00ad8e"
 								/>
 								<Spacer>
@@ -107,22 +109,31 @@ const PortfolioShowScreen = ({navigation})=>{
 						<View>
 							{portfolio.videos.length>0 && (
 								<VideosSection videos={portfolio.videos}/>
-							)}						
+							)}					
 							<MyDivider/>
 							<Spacer>
 								<Text h4 style={styles.text}>Timeline</Text>
 							</Spacer>
 							{portfolio.timeline.length>0 &&(
 								<TimelineSection timeline={portfolio.timeline}/>
-							)}						
+							)}					
 					        <MyDivider/>
 					        <Spacer>
-					        <View style={styles.titleContainer}>								
-								<Text h4 style={styles.text}>Comments</Text>
-								<TouchableOpacity onPress={()=>navigation.navigate('CommentForm')}>
-									<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
-								</TouchableOpacity>						
-							</View>
+								<View style={styles.titleContainer}>								
+									<Text h4 style={styles.text}>Contact</Text>	
+								</View>
+							</Spacer>
+							{(portfolio.phone || portfolio.email || portfolio.facebook || portfolio.instagram) && (
+								<ContactSection portfolio={portfolio}/>
+							)}
+					        <MyDivider/>
+					        <Spacer>
+						        <View style={styles.titleContainer}>								
+									<Text h4 style={styles.text}>Comments</Text>
+									<TouchableOpacity onPress={()=>navigation.navigate('CommentForm')}>
+										<MaterialCommunityIcons name="pencil-circle" size={35} color="#00ad8e"/>	
+									</TouchableOpacity>						
+								</View>
 					        </Spacer>
 					        <CommentsSection comments={portfolio.comments} portfolioId={portfolio._id} navigation={navigation}/>
 					    </View>
@@ -179,7 +190,17 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		justifyContent:'space-between',
 		
+	},
+	collectionContainer:{
+		shadowOpacity:1,
+		shadowRadius:5,
+		shadowColor:'black',
+		shadowOffset:{width:1, height:1},
+		elevation:10,
+		backgroundColor:'#181a18', 
+		marginBottom:30
 	}
+
 });
 
 

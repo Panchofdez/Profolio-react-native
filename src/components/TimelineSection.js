@@ -1,65 +1,63 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
-import Timeline from 'react-native-timeline-flatlist'
+import {StyleSheet, TouchableOpacity, Dimensions, View, FlatList} from 'react-native';
+import {Text} from 'react-native-elements';
 import Spacer from './Spacer';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 
 const TimelineSection=({timeline, type, navigation})=>{
-	let timelineData=[];
-	if(type==="myPortfolio"){
-		timelineData=timeline.map((post)=>(
-			{title:post.title, description:post.text, time:post.date, icon:(
-				<TouchableOpacity onPress={()=>navigation.navigate('TimelineEditForm', {post:post})}>
-					<MaterialCommunityIcons name="pencil-circle" size={30} color="white"/>	
-				</TouchableOpacity>	
-			)}
-		));
-	}else{
-		timelineData = timeline.map((post)=>(
-			{title:post.title, description:post.text, time:post.date}
-		));
-	}
 	if(type==='myPortfolio'){
 		return(
-			<Spacer>
-				<Timeline
-					style={styles.timeline}
-					data={timelineData}
-					circleSize={30}
-					circleColor='#00ad8e'
-					lineColor='#00ad8e'
-					timeContainerStyle={{minWidth:80, maxWidth:80, marginTop: -5}}
-					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13, marginHorizontal:2}}
-					descriptionStyle={{color:'white'}}
-					eventDetailStyle={{marginHorizontal:5}}
-					eventContainerStyle={{paddingBottom:25, marginLeft:16}}
-					titleStyle={{color:'white'}}
-					innerCircle={type==='myPortfolio'? 'icon' : null}
-					
-		        />
-		    </Spacer>
-	     
+			<View>
+				<FlatList
+					data={timeline}
+					keyExtractor={(p)=>p._id}
+					showsVerticalScrollIndicator={false}
+					renderItem={({item})=>{
+						return(
+							<View style={{borderLeftWidth:3, borderColor:'#00ad8e', marginLeft:30}}>
+								<View style={styles.timelineInfoContainer}>
+									<Text style={{fontSize:18, color:'white', fontWeight:'bold', marginBottom:5}}>{item.title}  </Text>
+									<Text style={{color:'white', fontWeight:'bold',marginBottom:5}}>{item.date}  </Text>
+									<Text style={{color:'white',  marginBottom:5}}>{item.text}   </Text>
+								</View>
+								<View style={{height:35, width:35, borderRadius:25, backgroundColor: '#00ad8e', position:'absolute', left:-19, justifyContent:'center', alignItems:'center'}}>
+									<TouchableOpacity onPress={()=>navigation.navigate('TimelineEditForm', {post:item})}>
+										<MaterialCommunityIcons name="pencil-circle" size={33} color="white"/>	
+									</TouchableOpacity>	
+								</View>
+							</View>
+							
+						)
+					}}
+				/>	
+				<Spacer/>    
+			</View>
 		)
 	}else{
 		return(
-			<Spacer>
-				<Timeline
-					style={styles.timeline}
-					data={timelineData}
-					circleSize={20}
-					circleColor='#00ad8e'
-					lineColor='#00ad8e'
-					timeContainerStyle={{minWidth: 80, maxWidth:80,marginTop: -5}}
-					timeStyle={{textAlign: 'center', backgroundColor:'#00ad8e', color:'white', padding:5, borderRadius:13,marginHorizontal:2}}
-					descriptionStyle={{color:'white'}}
-					eventDetailStyle={{marginLeft:5}}
-					eventContainerStyle={{paddingBottom:25, marginLeft:16}}
-					titleStyle={{color:'white'}}
-					
-		        />
-		    </Spacer>
-	 
+			<View>
+				<FlatList
+					data={timeline}
+					keyExtractor={(p)=>p._id}
+					showsVerticalScrollIndicator={false}
+					renderItem={({item})=>{
+						return(
+							<View style={{borderLeftWidth:3, borderColor:'#00ad8e', marginLeft:30}}>
+								<View style={styles.timelineInfoContainer}>
+									<Text style={{fontSize:18, color:'white', fontWeight:'bold', marginBottom:5}}>{item.title}     </Text>
+									<Text style={{color:'white', fontWeight:'bold',marginBottom:5}}>{item.date}     </Text>
+									<Text style={{color:'white',  marginBottom:5}}>{item.text}   </Text>
+								</View>
+								<View style={{height:30, width:30, borderRadius:25, backgroundColor: '#00ad8e', position:'absolute', left:-17, justifyContent:'center', alignItems:'center', borderWidth:2, borderColor:'white'}}>
+
+								</View>
+							</View>
+						)
+					}}
+				/>	     
+				<Spacer/>
+		 	</View>
 		)
 	}
 	
@@ -72,7 +70,23 @@ const styles= StyleSheet.create({
 	    flex: 1,
 	    marginTop:5
   	},
+  	timelineInfoContainer:{
+  		marginLeft:30, 
+  		marginRight:10, 
+  		padding:20,
+  		marginBottom:30,
+  		alignItems:'flex-start',
+		borderRadius:15,
+		backgroundColor:'#181a18',
+		overflow:'hidden',
+		shadowOpacity:0.8,
+		shadowRadius:3,
+		shadowColor:'black',
+		shadowOffset:{width:0, height:1},
+		elevation:10
+  	}
 })
 
 
 export default TimelineSection;
+

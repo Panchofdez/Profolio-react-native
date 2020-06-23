@@ -34,7 +34,15 @@ import {Entypo, FontAwesome5} from '@expo/vector-icons';
 
 const store = configureStore();
 
-const headerStyle = {
+const portfolioHeaderStyle = {
+  title:'', 
+  headerStyle:{
+    backgroundColor:'#161716'
+  }, 
+  headerTransparent:true,
+  headerTintColor: 'white'
+}
+const headerStyle={
   title:'', 
   headerStyle:{
     backgroundColor:'#161716'
@@ -51,7 +59,7 @@ const switchNavigator = createSwitchNavigator({
   mainFlow:createBottomTabNavigator({
     portfoliosFlow:createStackNavigator({
       Portfolios:{screen: PortfoliosScreen, navigationOptions:{headerShown:false}},
-      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:headerStyle},
+      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:portfolioHeaderStyle},
       CommentForm:{screen:CommentFormScreen, navigationOptions:headerStyle},
       Recommendations:{screen:RecommendationsScreen, navigationOptions:headerStyle}
     }, {
@@ -64,7 +72,7 @@ const switchNavigator = createSwitchNavigator({
     notificationsFlow:createStackNavigator({
       Notifications:{screen:NotificationsScreen,navigationOptions:{headerShown:false}},
       CommentShow:{screen:CommentShowScreen, navigationOptions:headerStyle},
-      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:headerStyle}
+      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:portfolioHeaderStyle}
       },{
         navigationOptions:{
           tabBarIcon: ({tintColor})=><NotificationIcon color={tintColor}/>
@@ -76,6 +84,7 @@ const switchNavigator = createSwitchNavigator({
         screen:MyPortfolioScreen,
         navigationOptions:{headerShown:false}
       },
+      PortfolioShow:{screen:PortfolioShowScreen, navigationOptions:portfolioHeaderStyle},
       Recommendations:{screen:RecommendationsScreen, navigationOptions:headerStyle},
       ProfileForm:{screen:ProfileFormScreen, navigationOptions:headerStyle},
       AboutForm:{screen:AboutFormScreen, navigationOptions:headerStyle},

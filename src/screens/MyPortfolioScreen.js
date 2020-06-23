@@ -130,21 +130,21 @@ const MyPortfolioScreen = ({navigation})=>{
 					}
 					data={portfolio.collections}
 					keyExtractor={(item)=>item._id}
+					showsVerticalScrollIndicator={false}
 					renderItem={({item})=>{
 						const images = item.photos.map((photo)=>photo.image);
 						return(
 						
-							<View>
-								<Spacer/>
+							<View style={styles.collectionContainer}>
 								<SliderBox
 									images={images}
-									sliderBoxHeight={450}
+									sliderBoxHeight={425}
 									dotColor="#00ad8e"
 								/>
 								<Spacer>
 									<View style={styles.collectionInfoContainer}>
 										<View style={{flex:1}}>
-											<Text style={styles.name}>{item.title}</Text>
+											<Text style={styles.name}>{item.title} </Text>
 										</View>
 									
 										<TouchableOpacity onPress={()=>{
@@ -155,7 +155,7 @@ const MyPortfolioScreen = ({navigation})=>{
 										</TouchableOpacity>
 									</View>
 									<View style={{flex:1, flexDirection:'row'}}>										
-										<Text style={styles.text}>{item.description}</Text>
+										<Text style={styles.text}>{item.description} </Text>
 									</View>
 								</Spacer>
 								<Spacer/>
@@ -266,8 +266,6 @@ const MyPortfolioScreen = ({navigation})=>{
 							{portfolio.timeline.length>0 && (
 								<TimelineSection timeline={portfolio.timeline} type="myPortfolio" navigation={navigation}/>
 							)}
-							
-					        <Spacer/>
 					        <MyDivider/>
 					        <Spacer>
 								<View style={styles.titleContainer}>								
@@ -353,8 +351,18 @@ const styles = StyleSheet.create({
 		display:'flex',
 		flexDirection:'row',
 		justifyContent:'space-between',
-		alignItems:'flex-start'
+		alignItems:'flex-start',
+		marginTop:5
 		
+	},
+	collectionContainer:{
+		shadowOpacity:0.8,
+		shadowRadius:3,
+		shadowColor:'black',
+		shadowOffset:{width:0, height:1},
+		elevation:10,
+		backgroundColor:'#181a18', 
+		marginBottom:30
 	}
 });
 

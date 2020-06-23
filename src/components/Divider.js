@@ -12,6 +12,7 @@ const MyDivider=()=>{
 const styles = StyleSheet.create({
 	divider:{
 		backgroundColor:'#fff',
+		opacity:0.7,
 		marginVertical:5
 	},
 })
