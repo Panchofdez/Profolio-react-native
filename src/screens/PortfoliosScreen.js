@@ -27,14 +27,39 @@ const PortfoliosScreen = ({navigation})=>{
 		const ellipsis = string.length > 80 ? "..." : "";
 		return string.substring(0,80) + ellipsis;
 	};
+	const sortLogic = (searchArr, portfolio)=>{
+		let count = 0; 
+		for (let word of searchArr){
+			word=word.toLowerCase();
+			if(word!== '' && (portfolio.name.toLowerCase().indexOf(word) !== -1 || portfolio.type.toLowerCase().indexOf(word)!== -1 || portfolio.location.toLowerCase().indexOf(word)!== -1)){
+				count+=1
+			}
+		}
+		return count;
+	}
 	const filterPortfolios = (portfoliosArr, searchTerm)=>{
-		const term = searchTerm.trim().toLowerCase();
-		if(term ===""){
+		const term = searchTerm.toLowerCase();
+		if(term.trim() ===""){
 			return portfoliosArr
 		}else{
-			return portfoliosArr.filter((portfolio)=>portfolio.name.toLowerCase().indexOf(term) !== -1 || portfolio.type.toLowerCase().indexOf(term)!== -1 || portfolio.location.toLowerCase().indexOf(term)!== -1)
+			const searchArr = term.split(' ');
+			const matches =  portfoliosArr.filter((portfolio)=>{
+				for (let word of searchArr){
+					word=word.toLowerCase();
+					if(word!== '' && (portfolio.name.toLowerCase().indexOf(word) !== -1 || portfolio.type.toLowerCase().indexOf(word)!== -1 || portfolio.location.toLowerCase().indexOf(word)!== -1)){
+						return true;
+					}
+				}
+				return false;
+			})
+			return matches.sort((a,b)=>{
+				const a_count = sortLogic(searchArr, a);
+				const b_count = sortLogic(searchArr, b)
+				return b_count-a_count;
+			})
 		}
 	};
+
 	const filterByCategory = (portfoliosArr, categoryArr)=>{
 		return portfoliosArr.filter((portfolio)=>{
 			for(let term of categoryArr){
@@ -56,7 +81,6 @@ const PortfoliosScreen = ({navigation})=>{
 	if(portfolios){
 		let newPortfolios=portfolios;
 		if(category){
-			console.log(category);
 			newPortfolios=filterByCategory(portfolios, category);
 		}
 		const filteredPortfolios=filterPortfolios(newPortfolios, searchTerm);
