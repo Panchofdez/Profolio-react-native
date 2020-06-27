@@ -28,7 +28,7 @@ import ContactFormScreen from './src/screens/ContactFormScreen';
 import NotificationIcon from  './src/components/NotificationIcon';
 import configureStore from './src/store';
 import {setNavigator} from './src/navigationRef';
-import {Entypo, FontAwesome5} from '@expo/vector-icons';
+import {FontAwesome5} from '@expo/vector-icons';
 
 
 
@@ -64,7 +64,7 @@ const switchNavigator = createSwitchNavigator({
       Recommendations:{screen:RecommendationsScreen, navigationOptions:headerStyle}
     }, {
             navigationOptions:{
-              tabBarIcon:({tintColor})=><Entypo name="home" size={35} color={tintColor}/>
+              tabBarIcon:({tintColor})=><FontAwesome5 name="search" size={30} color={tintColor}/>
             }
         }
 

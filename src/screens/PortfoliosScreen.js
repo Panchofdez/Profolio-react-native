@@ -39,11 +39,14 @@ const PortfoliosScreen = ({navigation})=>{
 	}
 	const filterPortfolios = (portfoliosArr, searchTerm)=>{
 		const term = searchTerm.toLowerCase();
+		const rankedPortfolios = portfoliosArr.sort((a,b)=>{
+			return b.recommendations.length - a.recommendations.length;
+		})
 		if(term.trim() ===""){
-			return portfoliosArr
+			return rankedPortfolios;
 		}else{
 			const searchArr = term.split(' ');
-			const matches =  portfoliosArr.filter((portfolio)=>{
+			const matches =  rankedPortfolios.filter((portfolio)=>{
 				for (let word of searchArr){
 					word=word.toLowerCase();
 					if(word!== '' && (portfolio.name.toLowerCase().indexOf(word) !== -1 || portfolio.type.toLowerCase().indexOf(word)!== -1 || portfolio.location.toLowerCase().indexOf(word)!== -1)){

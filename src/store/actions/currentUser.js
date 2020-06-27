@@ -38,6 +38,22 @@ export const authUser = ()=>{
 	}
 }
 
+export const fbLogin = (accessToken)=>{
+	return async dispatch =>{
+		try{
+			const response = await apiCall.post('/api/facebooklogin' , {accessToken, userId:null});
+			const {token, ...user} = response.data;
+			await AsyncStorage.setItem('token', token);
+			dispatch(setCurrentUser(user));
+			dispatch(clearErrorMessage())
+			navigate('Portfolios');
+		}catch(err){
+			console.log(err.response.data.error)
+			dispatch(addErrorMessage(err.response.data.error));
+		}
+		
+	}	
+}
 
 export const signin =(type, formData)=>{
 	return async dispatch =>{
@@ -45,7 +61,6 @@ export const signin =(type, formData)=>{
 			const response = await apiCall.post(`/api/${type}`, formData );
 			const {token, ...user} = response.data;
 			await AsyncStorage.setItem('token', token);
-			console.log(user.notifications);
 			dispatch(setCurrentUser(user));
 			dispatch(clearErrorMessage())
 			navigate('Portfolios');
